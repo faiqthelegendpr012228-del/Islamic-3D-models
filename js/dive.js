@@ -95,6 +95,7 @@
           <div class="divider">✦</div>
           <p class="hero-text">Six interactive 3D exhibits on one journey, from the Moon's orbit to the bottom of the sea.
              Scroll down to begin the dive.</p>
+          <button class="btn ghost small hero-kiosk" id="hero-kiosk" title="Self-running tour for an exhibition screen (or press K)">▶ Kiosk mode</button>
           <div class="hero-scroll" aria-hidden="true"><span></span></div>
         </div>
       </section>
@@ -130,6 +131,7 @@
       b.addEventListener("click", () => $(b.dataset.target).scrollIntoView({ behavior: "smooth" })));
     $("dive-top").addEventListener("click", () => $("stop-hero").scrollIntoView({ behavior: "smooth" }));
     $("dive-kiosk").addEventListener("click", () => window.KIOSK && KIOSK.start());
+    $("hero-kiosk").addEventListener("click", () => window.KIOSK && KIOSK.start());
     $("dive-glossary").addEventListener("click", () => window.GLOSSARY && GLOSSARY.open());
 
     // Cards fade/slide in when they come into view; the rail follows along

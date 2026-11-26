@@ -84,3 +84,26 @@ body:has(.overlay.open) #hud, body.video-mode #hud { display: none; }
   .j-step { grid-template-columns: 34px 1fr; }
   .j-step .j-go { grid-column: 1 / -1; }
 }
+
+/* ---------- homepage dive: a bar along the bottom; the page ends above it,
+   so the buttons can never sit on top of an exhibit card ---------- */
+#kiosk-chip { display: none; }
+body[data-screen="screen-topics"] #screen-topics { bottom: var(--dive-bar-h, 62px); }
+body.kiosk[data-screen="screen-topics"] #screen-topics { bottom: 0; }
+body[data-screen="screen-topics"] #hud {
+  left: 0; right: 0; bottom: 0 !important; min-height: var(--dive-bar-h, 62px);
+  flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px;
+  padding: 8px 12px; background: rgba(4, 10, 18, 0.96);
+  border-top: 1px solid rgba(232, 195, 106, 0.35);
+}
+body[data-screen="screen-topics"] .hud-chip { padding: 6px 14px 6px 10px; gap: 8px; box-shadow: none; }
+body[data-screen="screen-topics"] .wc-icon { font-size: 1.1rem; }
+body[data-screen="screen-topics"] .wc-bal { font-size: 0.95rem; }
+body[data-screen="screen-topics"] #kiosk-chip { display: inline-flex; border-color: #ff6b8a; }
+@media (max-width: 760px) {
+  body[data-screen="screen-topics"] .hud-chip { padding: 5px 10px 5px 8px; }
+  body[data-screen="screen-topics"] .hud-chip .wc-steps { display: none; }
+  body[data-screen="screen-topics"] #kiosk-chip .wc-steps { display: inline; border: 0; padding: 0; }
+}
+.hero-kiosk { margin-top: 22px; }
+@media (max-width: 520px) { body[data-screen="screen-topics"] #kiosk-chip { display: none; } }

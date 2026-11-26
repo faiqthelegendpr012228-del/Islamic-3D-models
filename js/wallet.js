@@ -174,3 +174,16 @@
   document.getElementById("journey").addEventListener("click", (e) => { if (e.target.id === "journey") W.close(); });
   window.addEventListener("keydown", (e) => { if (e.key === "Escape") W.close(); });
 })();
+
+/* Homepage: the page ends exactly where the bottom button bar starts. */
+(function () {
+  const hud = document.getElementById("hud");
+  if (!hud || !window.ResizeObserver) return;
+  const set = () => {
+    if (document.body.dataset.screen !== "screen-topics") return;
+    const h = Math.ceil(hud.getBoundingClientRect().height);
+    if (h) document.documentElement.style.setProperty("--dive-bar-h", h + "px");
+  };
+  new ResizeObserver(set).observe(hud);
+  new MutationObserver(set).observe(document.body, { attributes: true, attributeFilter: ["data-screen"] });
+})();
