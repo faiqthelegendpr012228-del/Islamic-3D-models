@@ -148,6 +148,7 @@ TOPIC_SCENES.waqf = function (ctx) {
   ctx.tools.innerHTML = `
     <h3>🕌 Waqf Village</h3>
     <div class="how">${ctx.topic.howTo}</div>
+    <div id="w-wallet"></div>
     <div class="tool-section">
       <div class="label-sm">1 · Donate an asset as waqf</div>
       <div class="tool-row">${Object.keys(ASSETS).map((k) => `<button class="btn ghost small" data-a="${k}">${ASSETS[k].icon} ${ASSETS[k].name}</button>`).join("")}</div>
@@ -176,6 +177,44 @@ TOPIC_SCENES.waqf = function (ctx) {
 
   let year = 0, lastRepair = 0;
 
+  // ---------- SHARED WALLET (step 3 of "My money journey") ----------
+  const W = window.WALLET;
+  const wBox = $t("#w-wallet");
+  let givePct = 25;
+  function renderWallet() {
+    if (!wBox.isConnected) return false;
+    const st = W.state, m = ctx.money;
+    let html = `<div class="wallet-box"><div class="wb-head"><span class="label-sm">💳 Your wallet · step 3</span><span class="wb-bal">${m(st.balance)}</span></div>`;
+    if (st.waqf > 0) {
+      html += `<div class="wb-note">✅ You gave ${m(st.waqf)} as a waqf (${st.waqfAsset}). The asset is never sold; its benefit keeps flowing.</div>
+               <button class="btn accent" id="w-journey">🌟 See my whole money journey</button>`;
+    } else if (st.balance <= 0) {
+      html += `<div class="wb-note">Your wallet is empty. Start at the Halal ATM, then invest in the Market.</div>
+               <button class="btn ghost small" id="w-atm">🏧 Go to the ATM ▶</button>`;
+    } else {
+      const amt = Math.round(st.balance * givePct / 100);
+      html += `<div class="label-sm">How much of your wallet?</div>
+               <div class="seg" id="w-pct">${[10, 25, 50].map((p) => `<button data-p="${p}" class="${p === givePct ? "on" : ""}">${p}%</button>`).join("")}</div>
+               <button class="btn accent" id="w-give" style="margin-top:8px">🕌 Endow ${m(amt)}${assetKey ? " as a " + ASSETS[assetKey].name.toLowerCase() : ""}</button>
+               <div class="wb-note">${assetKey ? "Then watch 300 years pass." : "Choose an asset below first."}</div>`;
+    }
+    wBox.innerHTML = html + `</div>`;
+    const on = (id, fn) => { const b = wBox.querySelector(id); if (b) b.onclick = fn; };
+    wBox.querySelectorAll("[data-p]").forEach((b) => b.onclick = () => { givePct = +b.dataset.p; renderWallet(); });
+    on("#w-atm", () => window.APP_ENTER("atm"));
+    on("#w-journey", () => W.open());
+    on("#w-give", () => {
+      if (!assetKey) { ctx.toast("👇 First choose an asset to donate: water well, school, orchard or hospital."); return; }
+      const amt = Math.round(st.balance * givePct / 100);
+      if (W.endow(amt, ASSETS[assetKey].name)) {
+        ctx.toast("🕌 " + m(amt) + " endowed. Watch it keep giving for 300 years…");
+        setYear(0); playTo(300, 20);
+      }
+    });
+  }
+  W.onChange(renderWallet);
+  renderWallet();
+
   function donate(key) {
     if (assetGroup) scene.remove(assetGroup);
     assetKey = key;
@@ -188,6 +227,7 @@ TOPIC_SCENES.waqf = function (ctx) {
     ctx.tween(0.8, (k) => { assetGroup.scale.setScalar(Math.max(0.01, k)); assetGroup.position.y = (1 - k) * 4; });
     ctx.toast(`${ASSETS[key].icon} ${ASSETS[key].name} donated as waqf, for the sake of Allah`);
     setYear(year);
+    renderWallet();
   }
 
   /** How many people have benefited after `y` years (simple model, grows as the village grows) */

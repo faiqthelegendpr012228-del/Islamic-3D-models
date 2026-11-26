@@ -180,6 +180,7 @@ TOPIC_SCENES.atm = function (ctx) {
   T.innerHTML = `
     <h3>🏧 Halal Finance ATM</h3>
     <div class="how">${ctx.topic.howTo}</div>
+    <div id="atm-wallet"></div>
     <div class="seg" id="atm-tabs">
       <button data-t="zakat">Zakat</button><button data-t="riba">Riba</button>
       <button data-t="sadaqah">Sadaqah</button><button data-t="sort">Sort</button>
@@ -187,6 +188,51 @@ TOPIC_SCENES.atm = function (ctx) {
     <div id="atm-tab"></div>`;
   T.querySelectorAll("#atm-tabs button").forEach((b) => b.onclick = () => openTab(b.dataset.t));
   const tabEl = T.querySelector("#atm-tab");
+
+  // ---------- SHARED WALLET (step 1 of "My money journey") ----------
+  const W = window.WALLET;
+  const wBox = T.querySelector("#atm-wallet");
+  function renderWallet() {
+    if (!wBox.isConnected) return false;            // topic closed: stop listening
+    const st = W.state, nisab = ctx.config.defaultNisab;
+    let html = `<div class="wallet-box"><div class="wb-head"><span class="label-sm">💳 Your wallet · step 1</span><span class="wb-bal">${money(st.balance)}</span></div>`;
+    if (!st.earned) {
+      html += `<button class="btn accent" id="w-earn">💼 Withdraw my savings (${money(W.START_SAVINGS)})</button>
+               <div class="wb-note">Savings you have held for one full lunar year.</div>`;
+    } else if (!st.zakatPaid) {
+      html += `<button class="btn accent" id="w-zakat">🕌 Pay zakat from my wallet (2.5%)</button>
+               <div class="wb-note">Your savings are above the nisab (${money(nisab)}), so zakat is due.</div>`;
+    } else {
+      html += `<div class="wb-note">✅ Savings withdrawn and purified with zakat.</div>
+               <button class="btn accent" id="w-next">🏪 Next: grow it fairly in the Market ▶</button>`;
+    }
+    if (st.earned) html += `<button class="btn ghost small" id="w-loan">🏦 Ask for a ${money(20000)} interest loan</button>`;
+    wBox.innerHTML = html + `</div>`;
+    const on = (id, fn) => { const b = wBox.querySelector(id); if (b) b.onclick = fn; };
+    on("#w-earn", () => {
+      W.earn();
+      for (let i = 0; i < 6; i++) launchCoin(causes[i % causes.length], i * 0.1);
+      drawScreen("WITHDRAWAL", ["Savings: " + money(W.START_SAVINGS), "Held for one lunar year", "Next: pay zakat"], "#3ddc97");
+      ctx.toast("💼 " + money(W.START_SAVINGS) + " added to your wallet");
+    });
+    on("#w-zakat", () => {
+      const z = W.payZakat(nisab);
+      if (z > 0) {
+        drawScreen("ZAKAT PAID", ["2.5% of your savings", "Zakat: " + money(z), "To the 8 groups of 9:60"], "#3ddc97");
+        ctx.toast("🕌 Zakat of " + money(z) + " paid. Your wealth is purified.");
+        ctx.info("zakat");
+      } else if (z === -1) ctx.toast("ℹ️ Your balance is below the nisab, so no zakat is due.");
+    });
+    on("#w-loan", () => {
+      W.refuseLoan();
+      drawScreen("LOAN REFUSED", ["Interest = riba", "2:275 Trade ✓  Riba ✗", "Try Murabaha instead"], "#ff6b6b");
+      ctx.toast("❌ The Halal ATM refuses interest loans: riba is forbidden (2:275).");
+      ctx.info("riba");
+    });
+    on("#w-next", () => window.APP_ENTER("market"));
+  }
+  W.onChange(renderWallet);
+  renderWallet();
   let currentTab = "";
 
   function openTab(t) {

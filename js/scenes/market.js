@@ -106,6 +106,7 @@ TOPIC_SCENES.market = function (ctx) {
   ctx.tools.innerHTML = `
     <h3>🏪 Investment Simulator</h3>
     <div class="how">${ctx.topic.howTo}</div>
+    <div id="m-wallet"></div>
     <div class="tool-section" id="m-step1">
       <div class="label-sm">Step 1 · Halal screening</div>
       <div id="m-screen" class="result-box">Click any shop in the market to screen it.</div>
@@ -147,6 +148,56 @@ TOPIC_SCENES.market = function (ctx) {
   $t("#m-reset").onclick = resetSim;
   $t("#m-consent").onclick = () => ctx.info("consent");
   $t("#m-loaninfo").onclick = () => ctx.info("loan");
+
+  // ---------- SHARED WALLET (step 2 of "My money journey") ----------
+  const W = window.WALLET;
+  const wBox = $t("#m-wallet");
+  function walletYears() { return years.reduce((a, y) => a + y.inv, 0); }
+  function renderWallet() {
+    if (!wBox.isConnected) return false;
+    const st = W.state;
+    let html = `<div class="wallet-box"><div class="wb-head"><span class="label-sm">💳 Your wallet · step 2</span><span class="wb-bal">${money(st.balance)}</span></div>`;
+    if (!st.earned) {
+      html += `<div class="wb-note">Your wallet is empty. Start at the Halal ATM to withdraw your savings.</div>
+               <button class="btn ghost small" id="w-atm">🏧 Go to the ATM ▶</button>`;
+    } else if (st.investOpen) {
+      const share = walletYears();
+      html += `<div class="wb-note">${money(st.invested)} invested in the ${shop ? shop.name : "business"}. Simulate some years below, then close the deal.</div>
+               <button class="btn accent" id="w-close" ${years.length ? "" : "disabled"}>💰 Close the deal: ${years.length ? "get back " + money(Math.max(0, st.invested + share)) : "simulate a year first"}</button>`;
+    } else if (st.returned) {
+      html += `<div class="wb-note">✅ Investment closed: ${st.returned.result >= 0 ? "profit" : "loss"} of ${money(st.returned.result)} after ${st.returned.years} year(s). The risk was shared, not pushed onto one side.</div>
+               <button class="btn accent" id="w-next">🕌 Next: give for generations in the Waqf village ▶</button>`;
+    } else if (!shop) {
+      html += `<div class="wb-note">Click a shop in the market to screen it. Only a halal business can receive your money.</div>`;
+    } else {
+      const amt = Math.min(capInv, st.balance);
+      html += `<button class="btn accent" id="w-invest" ${amt > 0 ? "" : "disabled"}>💳 Invest ${money(amt)} from my wallet</button>
+               <div class="wb-note">Into the ${shop.name} as <b>${contract === "mudarabah" ? "Mudarabah" : "Musharakah"}</b>. Change the amount or contract below first if you like.</div>`;
+    }
+    wBox.innerHTML = html + `</div>`;
+    const on = (id, fn) => { const b = wBox.querySelector(id); if (b) b.onclick = fn; };
+    on("#w-atm", () => window.APP_ENTER("atm"));
+    on("#w-next", () => window.APP_ENTER("waqf"));
+    on("#w-invest", () => {
+      const amt = Math.min(capInv, st.balance);
+      if (W.invest(amt, shop.name, contract === "mudarabah" ? "Mudarabah" : "Musharakah")) {
+        capInv = amt; $t("#m-inv").value = amt; $t("#m-inv").disabled = true;
+        resetSim();
+        ctx.toast("💳 " + money(amt) + " invested. Now simulate some years.");
+      }
+    });
+    on("#w-close", () => {
+      const back = W.closeInvestment(walletYears(), years.length);
+      $t("#m-inv").disabled = false;
+      ctx.toast("💰 " + money(back) + " returned to your wallet.");
+    });
+  }
+  W.onChange(renderWallet);
+  // keep the wallet box in step with screening, contract and simulated years
+  const _render = render;
+  render = function () { _render(); renderWallet(); };
+  if (W.state.investOpen) { capInv = W.state.invested; $t("#m-inv").value = capInv; $t("#m-inv").disabled = true; }
+  renderWallet();
 
   /** Step 1: halal screening of a shop */
   function screen(id) {

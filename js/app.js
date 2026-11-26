@@ -67,6 +67,8 @@
     $("app").classList.remove("active");
     if (id === "app") $("app").classList.add("active");
     else $(id).classList.add("active");
+    // the wallet button shows on the homepage and in the finance exhibits
+    if (window.WALLET) WALLET.showChip(id === "screen-topics" || (id === "app" && topic && topic.category === "Financial Contracts"));
   }
 
   // =====================================================================
@@ -87,6 +89,7 @@
   }
 
   window.APP_OPEN = showStart;   // used by the dive homepage (dive.js)
+  window.APP_ENTER = (id) => openTopic(id);   // used by the wallet journey (wallet.js)
 
   $("btn-back-topics").onclick = () => { location.hash = ""; showScreen("screen-topics"); };
   $("btn-start").onclick = () => openTopic(topic.id);

@@ -1,0 +1,79 @@
+/* =====================================================================
+   wallet.css  —  Floating wallet button + "My money journey" screen
+   ===================================================================== */
+
+#wallet-chip {
+  position: fixed; left: 16px; bottom: 64px; z-index: 70;
+  display: none; align-items: center; gap: 10px;
+  padding: 8px 16px 8px 10px;
+  background: rgba(8, 19, 31, 0.92);
+  border: 2px solid var(--gold); border-radius: 999px;
+  color: var(--text); font-family: inherit; cursor: pointer;
+  box-shadow: 0 8px 26px rgba(0,0,0,0.45);
+  transition: transform 0.15s;
+}
+#wallet-chip.show { display: inline-flex; }
+#wallet-chip:hover { transform: translateY(-2px); }
+#wallet-chip.bump { animation: walletBump 0.6s; }
+@keyframes walletBump { 30% { transform: scale(1.12); border-color: #3ddc97; } }
+.wc-icon { font-size: 1.4rem; }
+.wc-bal { font-weight: 800; font-size: 1.05rem; color: var(--gold-soft); }
+.wc-steps { font-size: 0.75rem; color: var(--muted); border-left: 1px solid var(--line); padding-left: 10px; }
+body.presenting #wallet-chip { display: none; }
+/* hide while the left info panel is open (the panel on the right still shows the balance) */
+body:has(#info.open) #wallet-chip { display: none; }
+
+/* ---------- journey overlay ---------- */
+#journey {
+  position: fixed; inset: 0; z-index: 200;
+  display: none; align-items: center; justify-content: center;
+  background: rgba(2, 6, 12, 0.72); backdrop-filter: blur(4px);
+  padding: 20px;
+}
+#journey.open { display: flex; }
+#journey-body {
+  width: min(760px, 100%); max-height: 90vh; overflow-y: auto;
+  background: var(--panel-solid); border: 2px solid var(--gold);
+  border-radius: 22px; padding: 26px 28px; box-shadow: var(--shadow);
+}
+#journey-body h2 { font-size: 1.9rem; margin-top: 4px; }
+.j-intro { color: var(--muted); margin: 0 0 14px; }
+.j-balance { text-align: center; padding: 10px; margin-bottom: 12px; border-radius: 14px; background: rgba(232,195,106,0.08); }
+.j-complete { margin-bottom: 12px; }
+.j-step {
+  display: grid; grid-template-columns: 42px 1fr auto; gap: 14px; align-items: center;
+  padding: 14px 16px; margin: 10px 0; border-radius: 14px;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+}
+.j-step.done { border-color: rgba(61,220,151,0.5); background: rgba(61,220,151,0.07); }
+.j-num {
+  width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center;
+  font-weight: 800; background: var(--gold); color: #08131f;
+}
+.j-step.done .j-num { background: var(--good); }
+.j-title { font-weight: 800; font-size: 1.1rem; }
+.j-status { font-size: 0.92rem; color: var(--text); margin: 2px 0 6px; }
+.j-verse { font-size: 0.85rem; color: var(--gold-soft); }
+.j-verse cite { font-style: normal; color: var(--muted); }
+.j-history { list-style: none; padding: 0; margin: 6px 0 0; font-size: 0.85rem; }
+.j-history li { display: flex; justify-content: space-between; gap: 12px; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.07); color: var(--muted); }
+.j-history b.pos { color: var(--good); }
+.j-history b.neg { color: var(--bad); }
+.j-actions { display: flex; justify-content: space-between; margin-top: 18px; }
+
+/* wallet box inside the exhibits' right-hand panels */
+.wallet-box {
+  border: 2px solid var(--gold); border-radius: 14px; padding: 12px 14px; margin: 8px 0 12px;
+  background: rgba(232,195,106,0.07);
+}
+.wallet-box .wb-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+.wallet-box .wb-bal { font-weight: 800; color: var(--gold-soft); }
+.wallet-box .btn { width: 100%; margin: 4px 0; }
+.wallet-box .wb-note { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
+
+@media (max-width: 760px) {
+  #wallet-chip { bottom: 14px; left: 10px; }
+  .wc-steps { display: none; }
+  .j-step { grid-template-columns: 34px 1fr; }
+  .j-step .j-go { grid-column: 1 / -1; }
+}

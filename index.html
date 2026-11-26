@@ -7,6 +7,7 @@
   <meta name="description" content="Six interactive 3D exhibits connecting the Qur'an and Sunnah to science, money and everyday life.">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/dive.css">
+  <link rel="stylesheet" href="css/wallet.css">
 </head>
 <body>
 
@@ -88,6 +89,10 @@
     <div id="toast"></div>
   </div>
 
+  <!-- ============ SHARED WALLET (finance topics) ============ -->
+  <button id="wallet-chip" title="Open my money journey"></button>
+  <section id="journey" role="dialog" aria-label="My money journey"><div id="journey-body"></div></section>
+
   <!-- ===== Scripts (classic scripts so it works by double-clicking — no server needed) ===== -->
   <!-- Three.js 3D engine + OrbitControls (rotate / zoom with the mouse) from CDNs -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -97,6 +102,7 @@
   <script src="js/config.js"></script>
   <script src="js/references.js"></script>
   <script src="js/content.js"></script>
+  <script src="js/wallet.js"></script>
   <script src="js/helpers3d.js"></script>
   <script src="js/scenes/atm.js"></script>
   <script src="js/scenes/sky.js"></script>
