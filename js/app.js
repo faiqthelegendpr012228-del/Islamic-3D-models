@@ -386,6 +386,15 @@
       ? `<div class="arabic placeholder">📝 ARABIC TEXT PLACEHOLDER: copy from <u>${r.link.replace("https://", "")}</u> and paste into js/references.js → "${id}"</div>`
       : `<div class="arabic">${r.arabic}</div>`;
     const src = r.type === "quran" ? "Translation: Sahih International" : "Translation: sunnah.com";
+    if (window.I18N && I18N.lang === "ar") {      // Arabic: the verse itself + its lesson in Arabic
+      return `<div class="ref-card">
+        <div class="ref-type">${r.type === "quran" ? "📖 القرآن الكريم" : "📜 الحديث الشريف"}</div>
+        <div class="ref-title">${r.ref}</div>
+        ${arabic}
+        <div class="ref-text">💡 ${r.lesson}</div>
+        <div class="ref-src no-tr">للتحقق: <a href="${r.link}" target="_blank" rel="noopener">${r.link.replace("https://", "")}</a></div>
+      </div>`;
+    }
     return `<div class="ref-card">
       <div class="ref-type">${r.type === "quran" ? "📖 Qur'an" : "📜 Hadith"}</div>
       <div class="ref-title">${r.ref}</div>
@@ -543,7 +552,7 @@
       <div class="quiz-progress">QUESTION ${quizIndex + 1} OF ${qs.length} · SCORE ${quizScore}</div>
       <div class="quiz-q">${q.q}</div>
       <div class="quiz-options">${q.options.map((o, i) =>
-        `<button class="quiz-opt" data-i="${i}"><span class="letter">${"ABCD"[i]}</span>${o}</button>`).join("")}</div>
+        `<button class="quiz-opt" data-i="${i}"><span class="letter">${(window.I18N && I18N.lang === "ar" ? "أبجد" : "ABCD")[i]}</span>${o}</button>`).join("")}</div>
       <div class="quiz-feedback" id="qz-fb"></div>
       <div class="quiz-actions"><button class="btn accent" id="qz-next" style="display:none">${quizIndex === qs.length - 1 ? "See score" : "Next question ▶"}</button></div>
     </div>`;

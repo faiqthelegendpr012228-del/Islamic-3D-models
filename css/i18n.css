@@ -1,0 +1,38 @@
+/* i18n.css — language switch + right-to-left (Arabic) layout */
+#lang-pill {
+  position: fixed; top: 14px; right: 14px; z-index: 80;
+  font: inherit; font-size: 0.9rem; font-weight: 700; cursor: pointer;
+  background: rgba(8,19,31,0.85); color: var(--gold-soft);
+  border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px;
+}
+#lang-pill:hover { border-color: var(--gold); }
+body[data-screen="app"] #lang-pill, body.kiosk #lang-pill { display: none; }
+.nav-btn.lang-btn { border-color: var(--gold); color: var(--gold-soft); }
+
+/* ----- Arabic ----- */
+html[lang="ar"] body, html[lang="ar"] button, html[lang="ar"] input, html[lang="ar"] select {
+  font-family: "Segoe UI", "Noto Naskh Arabic", "Noto Sans Arabic", Tahoma, "Geeza Pro", sans-serif;
+}
+html[lang="ar"] * { letter-spacing: 0 !important; }          /* spacing breaks joined Arabic letters */
+html[lang="ar"] .kicker, html[lang="ar"] .label-sm, html[lang="ar"] .stop-meta, html[lang="ar"] .quiz-progress { text-transform: none; }
+html[dir="rtl"] #lang-pill { right: auto; left: 14px; }
+html[dir="rtl"] .stop-card.right { margin-left: 0; margin-right: auto; }
+html[dir="rtl"] .stop-card.right { margin-right: auto; }
+html[dir="rtl"] .stop-card:not(.right) { margin-left: auto; }
+html[dir="rtl"] .stop-lesson { border-left: 0; border-right: 3px solid var(--gold); border-radius: 12px 0 0 12px; }
+html[dir="rtl"] .cat-title, html[dir="rtl"] .topic-card { text-align: right; }
+html[dir="rtl"] .topic-card .t-num { right: auto; left: 20px; }
+html[dir="rtl"] .j-history li { flex-direction: row-reverse; }
+html[dir="rtl"] .gl-card .gt-play { right: auto; left: 10px; }
+html[dir="rtl"] .gl-card .gt-def { padding-right: 0; padding-left: 40px; }
+html[dir="rtl"] .hud-chip .wc-steps { border-left: 0; border-right: 1px solid var(--line); padding-left: 0; padding-right: 10px; }
+html[dir="rtl"] .scene-note, html[dir="rtl"] #toast { direction: rtl; }
+html[lang="ar"] .ref-card .arabic { direction: rtl; }
+html[lang="ar"] .quiz-opt .letter { margin-right: 0; margin-left: 10px; }
+html[dir="rtl"] #dive-rail { right: auto; left: 18px; align-items: flex-start; }
+html[dir="rtl"] .rail-label { right: auto; left: 26px; }
+html[dir="rtl"] .stop-card.right { margin-right: 40px; }
+@media (max-width: 760px) {
+  html[dir="rtl"] #dive-rail { left: 8px; }
+  html[dir="rtl"] .dive-stop { padding: 50px 14px 50px 34px; }
+}

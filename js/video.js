@@ -47,7 +47,9 @@
   audio.preload = "auto";
   let usingClip = false;
   let prefs = { lang: "en", voice: "en-michael" };
-  try { Object.assign(prefs, JSON.parse(localStorage.getItem("signs-systems-voice")) || {}); } catch (e) { /* ignore */ }
+  let savedPrefs = null;
+  try { savedPrefs = JSON.parse(localStorage.getItem("signs-systems-voice")); Object.assign(prefs, savedPrefs || {}); } catch (e) { /* ignore */ }
+  if (!savedPrefs && window.I18N && I18N.lang === "ar") prefs.lang = "ar";   // Arabic interface → Arabic narration
   function savePrefs() { try { localStorage.setItem("signs-systems-voice", JSON.stringify(prefs)); } catch (e) { /* ignore */ } }
   function voiceKey() {
     if (prefs.lang === "ar") return Object.keys(N.voices).find((k) => N.voices[k].lang === "ar") || "";

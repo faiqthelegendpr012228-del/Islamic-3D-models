@@ -25,7 +25,7 @@
   }
   const $ = (id) => document.getElementById(id);
   const topicById = (id) => (window.TOPICS || []).find((t) => t.id === id);
-  const fmtDate = (t) => new Date(t).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+  const fmtDate = (t) => new Date(t).toLocaleDateString(window.I18N && I18N.lang === "ar" ? "ar-AE" : "en-GB", { day: "numeric", month: "long", year: "numeric" });
 
   const P = {
     PASS,
