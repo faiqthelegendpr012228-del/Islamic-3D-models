@@ -185,7 +185,7 @@ a { color: var(--gold-soft); }
 
 /* right-hand tool panel (each topic fills this) */
 #tools {
-  position: absolute; top: 84px; right: 16px; bottom: 16px;
+  position: absolute; top: calc(var(--topbar-h, 70px) + 12px); right: 16px; bottom: 16px;
   width: min(440px, 40vw);
   overflow-y: auto;
   background: var(--panel);
@@ -263,7 +263,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); height: 28px; curs
 
 /* ---------- Info panel (slides in from the left) ---------- */
 #info {
-  position: absolute; top: 84px; left: 16px; bottom: 16px;
+  position: absolute; top: calc(var(--topbar-h, 70px) + 12px); left: 16px; bottom: 16px;
   width: min(560px, 46vw);
   overflow-y: auto;
   background: var(--panel);
@@ -324,7 +324,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); height: 28px; curs
 
 /* ---------- Full overlays: references, real life, quiz, credits ---------- */
 .overlay {
-  position: absolute; inset: 70px 0 0 0;
+  position: absolute; inset: var(--topbar-h, 70px) 0 0 0;
   display: none;
   overflow-y: auto;
   background: rgba(8, 19, 31, 0.9);

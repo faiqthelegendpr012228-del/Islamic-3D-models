@@ -121,6 +121,14 @@
     else camera.clearViewOffset();
     camera.updateProjectionMatrix();
   }
+  // The top bar wraps onto 2 rows on narrower screens. Measure its real height
+  // so the side panels and overlays always start just below it.
+  function measureTopbar() {
+    document.documentElement.style.setProperty("--topbar-h", $("topbar").offsetHeight + "px");
+  }
+  if (window.ResizeObserver) new ResizeObserver(measureTopbar).observe($("topbar"));
+  window.addEventListener("resize", measureTopbar);
+  measureTopbar();
   window.addEventListener("resize", resize);
   resize();
 
