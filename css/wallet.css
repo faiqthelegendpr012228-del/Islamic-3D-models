@@ -2,8 +2,13 @@
    wallet.css  —  Floating wallet button + "My money journey" screen
    ===================================================================== */
 
-#wallet-chip {
+#hud {
   position: fixed; left: 16px; bottom: 64px; z-index: 70;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
+}
+body[data-screen="screen-start"] #hud { display: none; }
+body:not([data-screen="app"]) #hud { bottom: 16px; }
+.hud-chip {
   display: none; align-items: center; gap: 10px;
   padding: 8px 16px 8px 10px;
   background: rgba(8, 19, 31, 0.92);
@@ -12,31 +17,31 @@
   box-shadow: 0 8px 26px rgba(0,0,0,0.45);
   transition: transform 0.15s;
 }
-#wallet-chip.show { display: inline-flex; }
-#wallet-chip:hover { transform: translateY(-2px); }
-#wallet-chip.bump { animation: walletBump 0.6s; }
+.hud-chip.show { display: inline-flex; }
+.hud-chip:hover { transform: translateY(-2px); }
+.hud-chip.bump { animation: walletBump 0.6s; }
 @keyframes walletBump { 30% { transform: scale(1.12); border-color: #3ddc97; } }
 .wc-icon { font-size: 1.4rem; }
 .wc-bal { font-weight: 800; font-size: 1.05rem; color: var(--gold-soft); }
 .wc-steps { font-size: 0.75rem; color: var(--muted); border-left: 1px solid var(--line); padding-left: 10px; }
-body.presenting #wallet-chip { display: none; }
+body.presenting #hud { display: none; }
 /* hide while the left info panel is open (the panel on the right still shows the balance) */
-body:has(#info.open) #wallet-chip { display: none; }
+body:has(#info.open) #hud { display: none; }
 
 /* ---------- journey overlay ---------- */
-#journey {
+.modal {
   position: fixed; inset: 0; z-index: 200;
   display: none; align-items: center; justify-content: center;
   background: rgba(2, 6, 12, 0.72); backdrop-filter: blur(4px);
   padding: 20px;
 }
-#journey.open { display: flex; }
-#journey-body {
+.modal.open { display: flex; }
+.modal-body {
   width: min(760px, 100%); max-height: 90vh; overflow-y: auto;
   background: var(--panel-solid); border: 2px solid var(--gold);
   border-radius: 22px; padding: 26px 28px; box-shadow: var(--shadow);
 }
-#journey-body h2 { font-size: 1.9rem; margin-top: 4px; }
+.modal-body h2 { font-size: 1.9rem; margin-top: 4px; }
 .j-intro { color: var(--muted); margin: 0 0 14px; }
 .j-balance { text-align: center; padding: 10px; margin-bottom: 12px; border-radius: 14px; background: rgba(232,195,106,0.08); }
 .j-complete { margin-bottom: 12px; }
@@ -72,7 +77,7 @@ body:has(#info.open) #wallet-chip { display: none; }
 .wallet-box .wb-note { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
 
 @media (max-width: 760px) {
-  #wallet-chip { bottom: 14px; left: 10px; }
+  #hud { bottom: 14px !important; left: 10px; }
   .wc-steps { display: none; }
   .j-step { grid-template-columns: 34px 1fr; }
   .j-step .j-go { grid-column: 1 / -1; }

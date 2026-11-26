@@ -1,0 +1,137 @@
+/* =====================================================================
+   passport.css  —  Stamps, the passport screen and the certificate
+   ===================================================================== */
+
+/* ---------- a round ink stamp ---------- */
+.stamp { --c: var(--gold); width: 96px; height: 96px; display: grid; place-items: center; }
+.stamp-ring {
+  width: 100%; height: 100%; border-radius: 50%;
+  border: 3px dashed rgba(255,255,255,0.25);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  color: var(--muted);
+}
+.stamp.got .stamp-ring {
+  border: 4px double var(--c); color: var(--c);
+  background: radial-gradient(circle, rgba(255,255,255,0.06), transparent 70%);
+  transform: rotate(-12deg);
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.15) inset;
+}
+.stamp-icon { font-size: 2.1rem; line-height: 1; }
+.stamp.empty .stamp-icon { filter: grayscale(1); opacity: 0.35; }
+.stamp-text { font-size: 0.62rem; font-weight: 800; letter-spacing: 0.18em; margin-top: 4px; }
+.stamp.small { width: 64px; height: 64px; }
+.stamp.small .stamp-icon { font-size: 1.4rem; }
+.stamp.small .stamp-text { font-size: 0.5rem; }
+
+/* stamp "thump" when it is earned */
+.stamp.thump .stamp-ring { animation: thump 0.7s cubic-bezier(.2,1.6,.4,1) both; }
+@keyframes thump {
+  0% { transform: scale(2.4) rotate(-30deg); opacity: 0; }
+  60% { transform: scale(0.92) rotate(-10deg); opacity: 1; }
+  100% { transform: scale(1) rotate(-12deg); }
+}
+
+/* ---------- passport screen ---------- */
+.pp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 14px 0; }
+.pp-slot {
+  display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px;
+  padding: 16px 10px; border-radius: 14px;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+}
+.pp-slot.got { background: rgba(232,195,106,0.07); border-color: var(--line); }
+.pp-title { font-weight: 800; font-size: 0.95rem; }
+.pp-meta { font-size: 0.78rem; color: var(--muted); }
+.pp-progress { height: 8px; border-radius: 99px; background: rgba(255,255,255,0.1); overflow: hidden; margin: 6px 0 12px; }
+.pp-progress div { height: 100%; background: linear-gradient(90deg, var(--gold), var(--good)); transition: width 0.6s; }
+.pp-cert { margin-top: 6px; }
+.pp-name-row { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+.pp-name-row input {
+  flex: 1; min-width: 200px; font: inherit; font-size: 1.05rem; padding: 10px 14px;
+  border-radius: 12px; border: 2px solid var(--line); background: #071320; color: var(--text);
+}
+
+/* ---------- stamp result inside the quiz ---------- */
+.quiz-stamp { display: flex; flex-direction: column; align-items: center; gap: 8px; margin: 14px 0 4px; }
+.quiz-stamp .stamp { width: 120px; height: 120px; }
+.quiz-stamp .stamp-icon { font-size: 2.8rem; }
+.quiz-stamp p { margin: 0; color: var(--gold-soft); }
+
+/* ---------- stamps on the dive homepage ---------- */
+.stop-badge {
+  display: none; margin-left: auto; padding: 3px 10px; border-radius: 999px; white-space: nowrap; flex-shrink: 0;
+  background: rgba(61,220,151,0.18); color: var(--good); letter-spacing: 0.06em; font-size: 0.72rem;
+}
+.stop-card.stamped .stop-badge { display: inline-block; }
+.rail-dot.stamped::after {
+  content: "✓"; position: absolute; inset: 0; display: grid; place-items: center;
+  font-size: 10px; font-weight: 900; color: #04121c;
+}
+.rail-dot.stamped { background: var(--c); }
+
+/* ---------- certificate ---------- */
+#certificate { flex-direction: column; gap: 14px; overflow-y: auto; }
+#certificate-body { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.cert {
+  width: min(900px, 94vw); aspect-ratio: 1.414 / 1;
+  background:
+    radial-gradient(ellipse at top, rgba(232,195,106,0.12), transparent 60%),
+    #fbf6e9;
+  color: #1c2633; border-radius: 6px; padding: 18px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+  position: relative;
+}
+.cert::before {           /* faint geometric pattern */
+  content: ""; position: absolute; inset: 0; border-radius: 6px;
+  background-image: var(--pattern); background-size: 80px; opacity: 0.12; pointer-events: none;
+}
+.cert-inner {
+  position: relative; height: 100%;
+  border: 3px double #b58a2a; outline: 1px solid #b58a2a; outline-offset: -12px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+  padding: 4% 8%;
+}
+.cert .kicker { color: #9a7420; }
+.cert-title { font-family: Georgia, "Times New Roman", serif; font-size: clamp(1.6rem, 4vw, 2.8rem); color: #0f3b5c; margin: 6px 0 2px; }
+.cert-sub { color: #5b6573; font-style: italic; }
+.cert-name {
+  font-family: Georgia, "Times New Roman", serif; font-size: clamp(1.8rem, 5vw, 3.2rem); color: #1c2633;
+  border-bottom: 2px solid #b58a2a; padding: 0 30px 4px; margin: 8px 0 10px;
+}
+.cert-text { max-width: 620px; font-size: clamp(0.85rem, 1.6vw, 1.05rem); color: #33404f; }
+.cert-stamps { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin: 14px 0; }
+.cert .stamp.got .stamp-ring { background: rgba(255,255,255,0.4); }
+.cert-foot { display: flex; align-items: flex-end; justify-content: space-between; width: 100%; gap: 20px; margin-top: auto; }
+.cert-foot > div { flex: 1; }
+.cert-line { border-bottom: 1px solid #8a94a3; padding-bottom: 4px; font-weight: 700; font-size: 0.9rem; }
+.cert .label-sm { color: #6b7684; }
+.cert-seal {
+  flex: 0 0 auto !important; width: 70px; height: 70px; border-radius: 50%;
+  display: grid; place-items: center; font-size: 2rem; color: #fff;
+  background: radial-gradient(circle at 35% 35%, #e8c36a, #a77b1f); box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+.cert-actions { display: flex; gap: 12px; }
+
+@media (max-width: 760px) {
+  .pp-grid { grid-template-columns: repeat(2, 1fr); }
+  .cert { aspect-ratio: auto; }
+  .cert-inner { padding: 24px 14px; }
+}
+
+/* ---------- printing the certificate: only the certificate, landscape A4 ---------- */
+@media print {
+  @page { size: A4 landscape; margin: 0; }
+  html, body { overflow: visible !important; height: auto !important; background: #fff !important; }
+  body > *:not(#certificate) { display: none !important; }
+  #certificate { position: static !important; display: block !important; background: none !important; padding: 0 !important; backdrop-filter: none !important; }
+  .no-print { display: none !important; }
+  .cert { width: 297mm; height: 209mm; aspect-ratio: auto; box-shadow: none; border-radius: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .cert-inner { justify-content: space-evenly; padding: 10mm 22mm; }
+  .cert-title { font-size: 34pt; }
+  .cert-name { font-size: 40pt; }
+  .cert-text { font-size: 14pt; max-width: 200mm; }
+  .cert .stamp.small { width: 26mm; height: 26mm; }
+  .cert .stamp.small .stamp-icon { font-size: 22pt; }
+  .cert .stamp.small .stamp-text { font-size: 6pt; }
+  .cert-foot { margin-top: 0; }
+  .cert-line { font-size: 12pt; }
+}

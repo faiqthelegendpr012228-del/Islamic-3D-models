@@ -69,7 +69,7 @@
       <section class="dive-stop zone-${s.zone}" id="stop-${s.id}" data-index="${i}" style="--c:${t.accent}">
         <div class="sc">${scenery(s.zone, i)}</div>
         <article class="stop-card ${side}">
-          <div class="stop-meta"><span class="stop-num">${i + 1}</span>${s.zoneName} · ${t.category}</div>
+          <div class="stop-meta"><span class="stop-num">${i + 1}</span>${s.zoneName} · ${t.category}<span class="stop-badge">🛂 Stamped</span></div>
           <div class="stop-icon">${t.icon}</div>
           <h2>${t.title}</h2>
           <p class="stop-sub">${t.subtitle}</p>
@@ -140,6 +140,20 @@
       });
     }, { threshold: 0.45 });
     root.querySelectorAll(".dive-stop").forEach((s) => io.observe(s));
+
+    // Passport stamps shown on the cards and the rail
+    function showStamps() {
+      if (!window.PASSPORT) return;
+      STOPS.forEach((st, j) => {
+        const has = PASSPORT.has(st.id);
+        const card = root.querySelector(`#stop-${st.id} .stop-card`);
+        if (card) card.classList.toggle("stamped", has);
+        const dot = $("dive-rail").querySelectorAll(".rail-dot")[j];
+        if (dot) dot.classList.toggle("stamped", has);
+      });
+    }
+    if (window.PASSPORT) PASSPORT.onChange(showStamps);
+    showStamps();
 
     // Gentle parallax on the scenery
     const scroller = $("screen-topics");

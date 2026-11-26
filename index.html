@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/dive.css">
   <link rel="stylesheet" href="css/wallet.css">
+  <link rel="stylesheet" href="css/passport.css">
 </head>
 <body>
 
@@ -90,8 +91,14 @@
   </div>
 
   <!-- ============ SHARED WALLET (finance topics) ============ -->
-  <button id="wallet-chip" title="Open my money journey"></button>
-  <section id="journey" role="dialog" aria-label="My money journey"><div id="journey-body"></div></section>
+  <!-- floating buttons (bottom-left): passport always, wallet in the finance topics -->
+  <div id="hud">
+    <button id="wallet-chip" class="hud-chip" title="Open my money journey"></button>
+    <button id="passport-chip" class="hud-chip show" title="Open my explorer's passport"></button>
+  </div>
+  <section id="journey" class="modal" role="dialog" aria-label="My money journey"><div id="journey-body" class="modal-body"></div></section>
+  <section id="passport" class="modal" role="dialog" aria-label="Explorer's passport"><div id="passport-body" class="modal-body"></div></section>
+  <section id="certificate" class="modal" role="dialog" aria-label="Certificate"><div id="certificate-body"></div></section>
 
   <!-- ===== Scripts (classic scripts so it works by double-clicking — no server needed) ===== -->
   <!-- Three.js 3D engine + OrbitControls (rotate / zoom with the mouse) from CDNs -->
@@ -103,6 +110,7 @@
   <script src="js/references.js"></script>
   <script src="js/content.js"></script>
   <script src="js/wallet.js"></script>
+  <script src="js/passport.js"></script>
   <script src="js/helpers3d.js"></script>
   <script src="js/scenes/atm.js"></script>
   <script src="js/scenes/sky.js"></script>

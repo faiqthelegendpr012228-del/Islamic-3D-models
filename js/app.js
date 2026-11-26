@@ -67,6 +67,7 @@
     $("app").classList.remove("active");
     if (id === "app") $("app").classList.add("active");
     else $(id).classList.add("active");
+    document.body.dataset.screen = id;
     // the wallet button shows on the homepage and in the finance exhibits
     if (window.WALLET) WALLET.showChip(id === "screen-topics" || (id === "app" && topic && topic.category === "Financial Contracts"));
   }
@@ -90,6 +91,7 @@
 
   window.APP_OPEN = showStart;   // used by the dive homepage (dive.js)
   window.APP_ENTER = (id) => openTopic(id);   // used by the wallet journey (wallet.js)
+  window.APP_QUIZ = (id) => { openTopic(id); setView("quiz"); };   // used by the passport (passport.js)
 
   $("btn-back-topics").onclick = () => { location.hash = ""; showScreen("screen-topics"); };
   $("btn-start").onclick = () => openTopic(topic.id);
@@ -479,16 +481,26 @@
     const body = $("quiz-body");
     if (quizIndex >= qs.length) {
       const pct = quizScore / qs.length;
+      // Explorer's passport: 4/5 or more earns this exhibit's stamp
+      const P = window.PASSPORT;
+      const res = P ? P.award(topic.id, quizScore, qs.length) : "fail";
+      const stampBox = !P ? "" : res === "fail"
+        ? `<div class="quiz-stamp">${P.stampHtml(topic.id)}<p>Score <b>${Math.ceil(P.PASS * qs.length)} or more</b> to earn this exhibit's passport stamp.</p></div>`
+        : `<div class="quiz-stamp">${P.stampHtml(topic.id).replace('class="stamp got', 'class="stamp got thump')}
+             <p>${res === "new" ? "🛂 <b>Stamp earned!</b>" : "🛂 You already have this stamp."} ${P.count}/6 collected${P.count === 6 ? ": your certificate is ready!" : ""}</p></div>`;
       body.innerHTML = `<div class="quiz-card" style="text-align:center">
         <div class="quiz-progress">QUIZ COMPLETE</div>
         <div class="score-big">${quizScore} / ${qs.length}</div>
         <p style="font-size:1.4rem">${pct === 1 ? "MashaAllah! Perfect score! 🌟" : pct >= 0.6 ? "Great work! 👏" : "Good try! Explore the model again and retry. 💪"}</p>
+        ${stampBox}
         <div class="quiz-actions" style="justify-content:center">
           <button class="btn ghost" id="qz-retry">↺ Try again</button>
-          <button class="btn accent" id="qz-credits">⭐ Credits</button>
+          ${P ? `<button class="btn accent" id="qz-passport">🛂 ${P.count === 6 ? "Get my certificate" : "Open my passport"}</button>` : ""}
+          <button class="btn ghost" id="qz-home">🌍 Next exhibit</button>
         </div></div>`;
       $("qz-retry").onclick = startQuiz;
-      $("qz-credits").onclick = () => setView("credits");
+      if ($("qz-passport")) $("qz-passport").onclick = () => P.open();
+      $("qz-home").onclick = () => setView("home");
       return;
     }
     const q = qs[quizIndex];
