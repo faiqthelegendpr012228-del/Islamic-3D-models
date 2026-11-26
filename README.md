@@ -11,6 +11,11 @@ Six interactive 3D exhibits that connect the Qur'an and Sunnah to science, money
 - ❓ **Quizzes** with questions and answers shuffled every time.
 - 🛂 **Explorer's passport:** score 4/5 or more in a quiz to earn that exhibit's stamp. All six stamps unlock a printable **certificate**.
 - ↺ **New visitor** (in the passport) clears the wallet and stamps for the next person.
+- 🌐 **English / العربية:** the whole site in Arabic, right-to-left, including the exhibits, quizzes, wallet, passport and certificate (button in the top corner / top bar).
+- 📚 **Glossary:** key terms are underlined; hover or tap for the Arabic word, the meaning and its pronunciation. The 📚 button lists all terms.
+- 🃏 **Myth or Fact:** swipe cards for each exhibit, with the answer and its source.
+- 📱 **View in your room (AR):** five exhibits (ATM, Sky Shield, Waqf, Cosmic Clock, Market) can be placed on a real table through a phone camera. On a computer, scan the QR code.
+- ▶ **Kiosk mode:** press **K** (or the button at the bottom of the homepage) for a self-running tour on the exhibition screen. Any touch hands it to the visitor; after 90 seconds untouched it restarts.
 
 | # | Topic | Category |
 |---|---|---|
@@ -106,6 +111,11 @@ arabic: "[PASTE ARABIC TEXT HERE from quran.com/2/275]",
 | `js/video.js` + `css/video.css` | The **🎬 Watch video** player (narration and subtitles). |
 | `js/narration.js` + `audio/` | The recorded narration (4 English voices + 1 Arabic voice, × 6 topics × 8 steps) and its subtitle timings. Arabic voice by ElevenLabs (credited on the Credits page). |
 | `tools/narration/` | Scripts that recorded the voices. Only needed if you change the narration text (see its README). |
+| `js/i18n.js`, `js/ui-ar.js`, `js/content-ar.js`, `js/references-ar.js` | The Arabic interface (switch, labels, exhibit texts, reference lessons). **Teacher: please check the Arabic.** |
+| `js/glossary-data.js` + `js/glossary.js` + `audio/glossary/` | Glossary terms, pop-ups and pronunciations. |
+| `js/myths-data.js` + `js/myths.js` | Myth or Fact cards (please check these like the quiz). |
+| `js/ar.js` + `models/*.glb` + `images/ar-qr-*.png` | AR view: the 3D models and their QR codes. |
+| `js/kiosk.js` | Kiosk mode for the exhibition screen. |
 | `print/qr-stand-A5.pdf` | Printable QR code sign for the exhibition stand. |
 | `js/scenes/atm.js` | Topic 1: the ATM, Zakat calculator, Riba Check, Sadaqah coins, sorting game. |
 | `js/scenes/sky.js` | Topic 2: Earth, atmosphere layers, meteors, UV rays and ozone. |

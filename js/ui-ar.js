@@ -89,7 +89,7 @@ window.UI_AR = {
   "Swipe ← myth · fact →": "اسحب ← خرافة · حقيقة →",
   "Every verse and hadith used in": "كل آية وحديث مستعمل في", ". All references are stored in": ". كل المراجع محفوظة في", "for checking.": "للمراجعة.",
   "it,": "،", "Nisab changes with the gold price. Check today's value.": "النصاب يتغير بتغير سعر الذهب. تحقق من قيمته اليوم.",
-  "today": "اليوم",
+  "today": "اليوم", "View in your room": "اعرضه في غرفتك",
   // ----- glossary -----
   "Glossary of Islamic terms": "مصطلحات إسلامية", "Hear it in Arabic": "استمع بالعربية", "Search a word…": "ابحث عن كلمة…",
   "Self-running tour for an exhibition screen (or press K)": "جولة تلقائية لشاشة المعرض (أو اضغط K)",

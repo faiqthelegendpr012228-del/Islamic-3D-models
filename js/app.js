@@ -95,6 +95,7 @@
   // used by the video player (video.js)
   window.APP_API = {
     get topic() { return topic; },
+    get scene() { return scene; },
     runAction(name) {
       if (sceneApi && sceneApi.actions && sceneApi.actions[name]) {
         try { sceneApi.actions[name](); } catch (err) { console.error("Video step failed:", name, err); }
@@ -263,6 +264,7 @@
     buildRefsView();
     buildLifeView();
     setView("explore");
+    document.dispatchEvent(new CustomEvent("topicopen", { detail: id }));
   }
 
   /** Remove everything from the previous topic and free GPU memory */
