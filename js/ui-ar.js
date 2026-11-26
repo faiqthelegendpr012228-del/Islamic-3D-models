@@ -24,8 +24,8 @@ window.UI_AR = {
   "The sea floor": "قاع البحر", "You've reached the bottom": "وصلت إلى القاع",
   "From the sky above to the depths below:": "من السماء في الأعلى إلى الأعماق في الأسفل:",
   "signs for people who reflect.": "آياتٌ لقوم يتفكرون.", "Jump straight to any exhibit:": "انتقل مباشرة إلى أي معرض:",
-  "Back to space": "عودة إلى الفضاء", "Glossary": "المصطلحات", "Kiosk mode": "وضع العرض الذاتي",
-  "Self-running tour · touch anywhere to explore": "جولة تلقائية · المس الشاشة لتستكشف بنفسك",
+  "Back to space": "عودة إلى الفضاء", "Glossary": "المصطلحات", "Auto tour": "جولة تلقائية",
+  "Auto tour playing · touch anywhere to explore yourself": "الجولة التلقائية تعمل · المس الشاشة لتستكشف بنفسك",
   // ----- info panel, references, real life, credits -----
   "Explanation": "شرح", "Islamic reference": "مرجع إسلامي", "Islamic references": "مراجع إسلامية", "Reflection": "تأمّل",
   "Qur'an": "القرآن", "Hadith": "الحديث", "Qur'an & Hadith References": "مراجع القرآن والحديث",
@@ -92,7 +92,7 @@ window.UI_AR = {
   "today": "اليوم", "View in your room": "اعرضه في غرفتك",
   // ----- glossary -----
   "Glossary of Islamic terms": "مصطلحات إسلامية", "Hear it in Arabic": "استمع بالعربية", "Search a word…": "ابحث عن كلمة…",
-  "Self-running tour for an exhibition screen (or press K)": "جولة تلقائية لشاشة المعرض (أو اضغط K)",
+  "The website plays all six exhibits by itself (or press K)": "يعرض الموقع المعارض الستة بنفسه (أو اضغط K)",
 
   // ===== EXHIBIT CONTROL PANELS =====
   // ATM

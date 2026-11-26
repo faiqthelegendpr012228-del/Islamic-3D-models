@@ -15,7 +15,7 @@ Six interactive 3D exhibits that connect the Qur'an and Sunnah to science, money
 - 📚 **Glossary:** key terms are underlined; hover or tap for the Arabic word, the meaning and its pronunciation. The 📚 button lists all terms.
 - 🃏 **Myth or Fact:** swipe cards for each exhibit, with the answer and its source.
 - 📱 **View in your room (AR):** five exhibits (ATM, Sky Shield, Waqf, Cosmic Clock, Market) can be placed on a real table through a phone camera. On a computer, scan the QR code.
-- ▶ **Kiosk mode:** press **K** (or the button at the bottom of the homepage) for a self-running tour on the exhibition screen. Any touch hands it to the visitor; after 90 seconds untouched it restarts.
+- ▶ **Auto tour:** press **K** (or the "▶ Auto tour" button on the homepage) for a self-running tour on the exhibition screen. Any touch hands it to the visitor; after 90 seconds untouched it restarts.
 
 | # | Topic | Category |
 |---|---|---|
@@ -115,7 +115,7 @@ arabic: "[PASTE ARABIC TEXT HERE from quran.com/2/275]",
 | `js/glossary-data.js` + `js/glossary.js` + `audio/glossary/` | Glossary terms, pop-ups and pronunciations. |
 | `js/myths-data.js` + `js/myths.js` | Myth or Fact cards (please check these like the quiz). |
 | `js/ar.js` + `models/*.glb` + `images/ar-qr-*.png` | AR view: the 3D models and their QR codes. |
-| `js/kiosk.js` | Kiosk mode for the exhibition screen. |
+| `js/kiosk.js` | Auto tour (kiosk mode) for the exhibition screen. |
 | `print/qr-stand-A5.pdf` | Printable QR code sign for the exhibition stand. |
 | `js/scenes/atm.js` | Topic 1: the ATM, Zakat calculator, Riba Check, Sadaqah coins, sorting game. |
 | `js/scenes/sky.js` | Topic 2: Earth, atmosphere layers, meteors, UV rays and ozone. |

@@ -95,7 +95,7 @@
           <div class="divider">✦</div>
           <p class="hero-text">Six interactive 3D exhibits on one journey, from the Moon's orbit to the bottom of the sea.
              Scroll down to begin the dive.</p>
-          <button class="btn ghost small hero-kiosk" id="hero-kiosk" title="Self-running tour for an exhibition screen (or press K)">▶ Kiosk mode</button>
+          <button class="btn ghost small hero-kiosk" id="hero-kiosk" title="The website plays all six exhibits by itself (or press K)">▶ Auto tour</button>
           <div class="hero-scroll" aria-hidden="true"><span></span></div>
         </div>
       </section>
@@ -109,7 +109,7 @@
           <button class="btn ghost" id="dive-top">↑ Back to space</button>
           <div class="end-tools">
             <button class="btn ghost small" id="dive-glossary">📚 Glossary</button>
-            <button class="btn ghost small" id="dive-kiosk" title="Self-running tour for an exhibition screen (or press K)">▶ Kiosk mode</button>
+            <button class="btn ghost small" id="dive-kiosk" title="The website plays all six exhibits by itself (or press K)">▶ Auto tour</button>
           </div>
           <p class="credit-line">${(cfg.members || []).map((m) => m.name).join(" · ")} · ${cfg.className || ""}</p>
         </div>

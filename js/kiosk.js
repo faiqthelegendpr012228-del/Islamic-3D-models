@@ -4,7 +4,7 @@
    Start it in any of these ways:
      • press K on the keyboard (homepage or any exhibit)
      • open the site with ?kiosk at the end of the link
-     • click the "▶ Kiosk mode" link at the bottom of the homepage
+     • click the "▶ Auto tour" button at the bottom of the homepage
    What it does, in a loop:
      1. slowly scrolls the homepage from space to the sea floor
      2. opens each exhibit and plays its narrated video (first 4 steps)
@@ -27,7 +27,7 @@
   // ---------- the little badge in the corner ----------
   const badge = document.createElement("div");
   badge.id = "kiosk-badge";
-  badge.innerHTML = `<span class="kb-dot"></span><span data-i18n="kiosk.badge">Self-running tour · touch anywhere to explore</span>`;
+  badge.innerHTML = `<span class="kb-dot"></span><span data-i18n="kiosk.badge">Auto tour playing · touch anywhere to explore yourself</span>`;
   document.body.appendChild(badge);
 
   function later(fn, ms) { const t = setTimeout(fn, ms); timers.push(t); return t; }
