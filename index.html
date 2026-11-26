@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Signs &amp; Systems · Islamic Studies Interactive Museum</title>
+  <meta name="description" content="Six interactive 3D exhibits connecting the Qur'an and Sunnah to science, money and everyday life.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dive.css">
+</head>
+<body>
+
+  <!-- Shown until Three.js has loaded (needs an internet connection) -->
+  <div id="loading">Loading 3D engine…</div>
+
+  <!-- ============ SCREEN 1: THE DIVE (homepage: space → sky → town → sea) ============ -->
+  <section id="screen-topics" class="screen dive">
+    <nav id="dive-rail" class="hidden" aria-label="Exhibits"></nav>
+    <div id="dive"></div>
+  </section>
+
+  <!-- ============ SCREEN 2: START SCREEN for the chosen topic ============ -->
+  <section id="screen-start" class="screen">
+    <div class="screen-inner" style="padding-top:70px">
+      <div class="big-icon" id="start-icon">🏧</div>
+      <div class="kicker" id="start-cat">Category</div>
+      <h1 class="title-xl" id="start-title">Title</h1>
+      <p class="subtitle" id="start-sub">Subtitle</p>
+      <div class="divider">✦</div>
+      <div class="label-sm">Presented by</div>
+      <div class="members" id="start-members"></div>
+      <div class="start-actions">
+        <button class="btn big accent" id="btn-start">▶ Start</button>
+        <button class="btn ghost" id="btn-back-topics">← Choose another topic</button>
+      </div>
+      <p class="edit-hint"><span id="start-class"></span></p>
+    </div>
+  </section>
+
+  <!-- ============ SCREEN 3: THE 3D APP ============ -->
+  <div id="app">
+    <canvas id="scene-canvas"></canvas>
+    <div id="labels"></div>
+    <div class="scene-note" id="scene-note">Drag to rotate · Scroll to zoom · Right-drag to move</div>
+
+    <header id="topbar">
+      <div class="tb-title"><span id="tb-icon">🏧</span><div><span class="cat" id="tb-cat"></span><span id="tb-title"></span></div></div>
+      <button class="nav-btn on" data-view="explore">🧭 Explore</button>
+      <button class="nav-btn" data-view="refs">📖 Qur'an &amp; Hadith</button>
+      <button class="nav-btn" data-view="life">🏠 Real Life</button>
+      <button class="nav-btn present" data-view="present">🎤 Presentation Mode</button>
+      <button class="nav-btn" data-view="quiz">❓ Quiz</button>
+      <button class="nav-btn" data-view="credits">⭐ Credits</button>
+      <button class="nav-btn" data-view="home">⌂ Topics</button>
+    </header>
+
+    <!-- right panel: controls for the current topic (filled by the scene file) -->
+    <aside id="tools"></aside>
+
+    <!-- left panel: info about whatever hotspot was clicked -->
+    <aside id="info"><button class="close" id="info-close" title="Close">✕</button><div id="info-body"></div></aside>
+
+    <!-- overlays -->
+    <section class="overlay" id="view-refs"><div class="overlay-inner" id="refs-body"></div></section>
+    <section class="overlay" id="view-life"><div class="overlay-inner" id="life-body"></div></section>
+    <section class="overlay" id="view-quiz"><div class="overlay-inner" id="quiz-body"></div></section>
+    <section class="overlay" id="view-credits"><div class="overlay-inner" id="credits-body"></div></section>
+
+    <!-- presentation mode bar -->
+    <div id="present">
+      <div class="speaker"><div class="sp-label">Now speaking</div><div class="sp-name" id="sp-name">Member 1</div><div class="sp-label" id="sp-num">Member 1</div></div>
+      <div class="present-text">
+        <h3 id="pr-title">Step title</h3>
+        <p id="pr-say">What to say…</p>
+        <div class="present-meta">
+          <span id="pr-step">Step 1 / 8</span>
+          <div class="progress"><div id="pr-progress"></div></div>
+          <span id="pr-timer">0:00</span>
+        </div>
+      </div>
+      <div class="present-btns">
+        <button class="btn accent" id="pr-next">Next ▶</button>
+        <button class="btn ghost small" id="pr-back">◀ Back</button>
+        <button class="btn ghost small" id="pr-exit">Exit</button>
+      </div>
+    </div>
+
+    <div id="toast"></div>
+  </div>
+
+  <!-- ===== Scripts (classic scripts so it works by double-clicking — no server needed) ===== -->
+  <!-- Three.js 3D engine + OrbitControls (rotate / zoom with the mouse) from CDNs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+  <!-- Our own files: settings, references, text, then the engine and the six scenes -->
+  <script src="js/config.js"></script>
+  <script src="js/references.js"></script>
+  <script src="js/content.js"></script>
+  <script src="js/helpers3d.js"></script>
+  <script src="js/scenes/atm.js"></script>
+  <script src="js/scenes/sky.js"></script>
+  <script src="js/scenes/waqf.js"></script>
+  <script src="js/scenes/clock.js"></script>
+  <script src="js/scenes/market.js"></script>
+  <script src="js/scenes/ocean.js"></script>
+  <script src="js/dive.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

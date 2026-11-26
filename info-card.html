@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project Info Card</title>
+  <!--
+    info-card.html — a printable A5 project information card.
+    Choose the topic from the drop-down (or open info-card.html#ocean),
+    then press "Print" (or Ctrl+P). The card fills exactly one A5 page.
+    All text comes from js/config.js, js/references.js and js/content.js.
+  -->
+  <style>
+    @page { size: A5 portrait; margin: 8mm; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: #d9dee5;
+      font-family: "Segoe UI", Arial, sans-serif; color: #0f2236;
+      -webkit-print-color-adjust: exact; print-color-adjust: exact;
+    }
+    /* screen-only toolbar */
+    .toolbar { display: flex; gap: 10px; justify-content: center; align-items: center; padding: 14px; font-size: 16px; }
+    .toolbar select, .toolbar button { font-size: 16px; padding: 8px 14px; border-radius: 8px; border: 2px solid #0f2236; background: #fff; cursor: pointer; }
+    .toolbar button { background: #0f2236; color: #e8c36a; font-weight: 700; }
+
+    /* the A5 card: 148 × 210 mm minus margins */
+    .card {
+      width: 132mm; height: 194mm; margin: 0 auto 30px; background: #fffdf7;
+      border: 2.5mm solid var(--accent, #2fbf9b); border-radius: 4mm;
+      padding: 6mm 7mm; position: relative; overflow: hidden;
+      box-shadow: 0 8px 30px rgba(0,0,0,.25);
+      display: flex; flex-direction: column;
+    }
+    /* faint 8-pointed-star pattern */
+    .card::before {
+      content: ""; position: absolute; inset: 0; opacity: .07; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3E%3Cg fill='none' stroke='%230f2236' stroke-width='1.5'%3E%3Crect x='28' y='28' width='40' height='40'/%3E%3Crect x='28' y='28' width='40' height='40' transform='rotate(45 48 48)'/%3E%3Ccircle cx='48' cy='48' r='9'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: 22mm;
+    }
+    .card > * { position: relative; }
+    .head { text-align: center; border-bottom: .6mm solid #e8c36a; padding-bottom: 3mm; margin-bottom: 3mm; }
+    .cat { font-size: 7.5pt; letter-spacing: .2em; text-transform: uppercase; color: #9a7a22; font-weight: 800; }
+    h1 { font-size: 17pt; margin: 1mm 0; line-height: 1.1; color: #0f2236; }
+    .icon { font-size: 22pt; }
+    .sub { font-size: 8.5pt; color: #44556a; margin: 0; }
+    h2 { font-size: 9pt; letter-spacing: .12em; text-transform: uppercase; margin: 2.5mm 0 1.5mm; color: var(--accent-dark, #14644f); }
+    .main-ref { background: #fbf3dc; border: .4mm solid #e8c36a; border-radius: 2.5mm; padding: 2.5mm 3.5mm; }
+    .main-ref .r { font-weight: 800; font-size: 9pt; }
+    .main-ref .t { font-style: italic; font-size: 8.5pt; line-height: 1.35; margin-top: 1mm; }
+    .main-ref .ar { direction: rtl; text-align: right; font-family: "Traditional Arabic", "Amiri", serif; font-size: 13pt; margin-top: 1mm; }
+    ul { margin: 0; padding-left: 4.5mm; font-size: 8.5pt; line-height: 1.4; }
+    .refs li b { color: #0f2236; }
+    .features li { margin-bottom: .6mm; }
+    .foot { margin-top: auto; border-top: .4mm solid #e8c36a; padding-top: 2.5mm; font-size: 7.5pt; color: #44556a; display: flex; justify-content: space-between; gap: 4mm; }
+    .foot b { color: #0f2236; }
+    .src { font-size: 6.5pt; color: #6a7a8a; margin-top: 1.5mm; }
+
+    @media print {
+      body { background: #fff; }
+      .toolbar { display: none; }
+      .card { margin: 0; box-shadow: none; page-break-after: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <label>Topic: <select id="pick"></select></label>
+    <button onclick="window.print()">🖨️ Print (A5)</button>
+  </div>
+  <div class="card" id="card"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/references.js"></script>
+  <script src="js/content.js"></script>
+  <script>
+    // Build the card for the chosen topic
+    const pick = document.getElementById("pick");
+    TOPICS.forEach((t, i) => pick.add(new Option(`${i + 1}. ${t.title}`, t.id)));
+
+    function render(id) {
+      const t = TOPICS.find((x) => x.id === id) || TOPICS[0];
+      pick.value = t.id;
+      location.hash = t.id;
+      document.documentElement.style.setProperty("--accent", t.accent);
+      const main = REFERENCES[t.refs[0]];
+      const hasArabic = main.arabic && main.arabic.indexOf(ARABIC_PLACEHOLDER) !== 0;
+      const C = APP_CONFIG;
+      document.getElementById("card").innerHTML = `
+        <div class="head">
+          <div class="icon">${t.icon}</div>
+          <div class="cat">${t.category} · ${C.schoolName}</div>
+          <h1>${t.title}</h1>
+          <p class="sub">${t.subtitle}</p>
+        </div>
+        <h2>📖 Key reference</h2>
+        <div class="main-ref">
+          <div class="r">${main.ref}</div>
+          ${hasArabic ? `<div class="ar">${main.arabic}</div>` : ""}
+          <div class="t">“${main.translation}”</div>
+        </div>
+        <h2>📜 All Islamic references</h2>
+        <ul class="refs">${t.refs.map((r) => `<li><b>${REFERENCES[r].ref}</b>: ${REFERENCES[r].lesson}</li>`).join("")}</ul>
+        <h2>✨ Key features of our 3D model</h2>
+        <ul class="features">${t.features.map((f) => `<li>${f}</li>`).join("")}</ul>
+        <div class="foot">
+          <div><b>${C.members.length === 1 ? "Presented by" : "Group"}:</b> ${C.members.map((m) => m.name).join(", ")}<br>${C.className} · ${C.teacherName}</div>
+          <div style="text-align:right"><b>Open:</b> index.html#${t.id}<br>Interactive 3D · Three.js</div>
+        </div>
+        <div class="src">Qur'an translation: Sahih International (quran.com). Hadith translation: sunnah.com.</div>`;
+    }
+    pick.onchange = () => render(pick.value);
+    render(location.hash.replace("#", "") || new URLSearchParams(location.search).get("topic"));
+  </script>
+</body>
+</html>

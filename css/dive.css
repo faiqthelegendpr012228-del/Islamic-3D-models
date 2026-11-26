@@ -1,0 +1,231 @@
+/* =====================================================================
+   dive.css  —  The homepage journey (space → sky → town → sea)
+   ===================================================================== */
+
+#screen-topics.dive { scroll-behavior: smooth; background: #02040a; }
+#screen-topics.dive::before { opacity: 0.05; }
+
+/* One long background that changes colour as you go down */
+#dive {
+  position: relative;
+  background: linear-gradient(180deg,
+    #02040a 0%,      /* deep space */
+    #050b1f 14%,
+    #0c1d44 22%,     /* upper atmosphere */
+    #1f5c9e 30%,     /* blue sky */
+    #6fa8d6 36%,
+    #f2b179 44%,     /* sunset over the town */
+    #d9805a 52%,
+    #7a3f4f 60%,
+    #2b2340 68%,     /* evening */
+    #0d4a6b 74%,     /* sea surface */
+    #07304a 82%,
+    #031827 90%,
+    #010a12 100%);   /* the deep */
+}
+
+/* ---------- each stop is one full screen ---------- */
+.dive-stop {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 60px 7vw;
+  overflow: hidden;
+}
+.sc { position: absolute; inset: 0; pointer-events: none; }
+
+/* ---------- hero ---------- */
+.dive-hero { justify-content: center; text-align: center; }
+.hero-inner { position: relative; z-index: 2; max-width: 900px; }
+.hero-inner .subtitle { color: var(--gold-soft); font-size: clamp(1.2rem, 2.4vw, 1.7rem); }
+.hero-text { color: var(--muted); font-size: 1.1rem; max-width: 640px; margin: 0 auto; }
+.hero-scroll {
+  margin: 40px auto 0; width: 30px; height: 50px; border: 2px solid var(--gold-soft);
+  border-radius: 20px; position: relative; opacity: 0.8;
+}
+.hero-scroll span {
+  position: absolute; left: 50%; top: 9px; width: 6px; height: 10px; margin-left: -3px;
+  background: var(--gold); border-radius: 3px; animation: scrollHint 1.6s infinite;
+}
+@keyframes scrollHint { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(20px); opacity: 0; } }
+
+/* ---------- exhibit cards ---------- */
+.stop-card {
+  position: relative; z-index: 2;
+  max-width: 560px;
+  background: rgba(6, 16, 28, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-top: 4px solid var(--c);
+  border-radius: 22px;
+  padding: 30px 32px 28px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(.2,.8,.2,1);
+}
+.stop-card.right { margin-left: auto; margin-right: 40px; }
+.dive-stop.in .stop-card { opacity: 1; transform: none; }
+.stop-meta { color: var(--gold); text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.78rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+.stop-num {
+  display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%;
+  background: var(--c); color: #04121c; font-size: 0.85rem; letter-spacing: 0;
+}
+.stop-icon { font-size: 3.2rem; margin: 12px 0 4px; }
+.stop-card h2 { font-size: clamp(1.6rem, 3vw, 2.3rem); color: var(--c); margin-bottom: 6px; }
+.stop-sub { color: var(--text); margin: 0 0 16px; font-size: 1.05rem; }
+.stop-lesson {
+  margin: 0 0 14px; padding: 12px 16px; border-left: 3px solid var(--gold);
+  background: rgba(232,195,106,0.08); border-radius: 0 12px 12px 0;
+  font-size: 1rem; color: var(--gold-soft);
+}
+.stop-lesson cite { display: block; margin-top: 6px; font-style: normal; font-size: 0.8rem; color: var(--muted); }
+.stop-refs { font-size: 0.82rem; color: var(--muted); margin-bottom: 18px; }
+.stop-enter { font-size: 1.05rem; }
+
+/* ---------- side rail ---------- */
+#dive-rail {
+  position: fixed; right: 18px; top: 50%; transform: translateY(-50%);
+  z-index: 60; display: flex; flex-direction: column; align-items: flex-end; gap: 14px;
+  transition: opacity 0.4s;
+}
+#dive-rail.hidden { opacity: 0; pointer-events: none; }
+.rail-depth {
+  font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-soft);
+  background: rgba(6,16,28,0.7); padding: 4px 10px; border-radius: 999px; margin-bottom: 6px;
+}
+.rail-dot {
+  position: relative; width: 16px; height: 16px; border-radius: 50%;
+  border: 2px solid var(--c); background: transparent; cursor: pointer; padding: 0;
+  transition: transform 0.2s, background 0.2s;
+}
+.rail-dot.on { background: var(--c); transform: scale(1.35); }
+.rail-label {
+  position: absolute; right: 26px; top: 50%; transform: translateY(-50%);
+  white-space: nowrap; font-size: 0.82rem; color: var(--text);
+  background: rgba(6,16,28,0.85); padding: 3px 10px; border-radius: 8px;
+  opacity: 0; pointer-events: none; transition: opacity 0.2s;
+}
+.rail-dot:hover .rail-label { opacity: 1; }
+
+/* ---------- scenery: space ---------- */
+.sc-stars {
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 10% 20%, #fff, transparent),
+    radial-gradient(1px 1px at 30% 70%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 55% 35%, #fff, transparent),
+    radial-gradient(1px 1px at 75% 15%, #fff, transparent),
+    radial-gradient(2px 2px at 85% 60%, #ffe9b0, transparent),
+    radial-gradient(1px 1px at 20% 85%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 65% 85%, #cfe3ff, transparent),
+    radial-gradient(1px 1px at 45% 10%, #fff, transparent),
+    radial-gradient(1px 1px at 92% 90%, #fff, transparent);
+  background-size: 420px 420px;
+  animation: twinkle 5s ease-in-out infinite alternate;
+}
+.sc-stars.s2 { background-size: 260px 260px; background-position: 60px 90px; opacity: 0.6; animation-delay: 2s; }
+@keyframes twinkle { from { opacity: 0.55; } to { opacity: 1; } }
+.sc-sun {
+  position: absolute; right: 12%; top: 18%; width: 150px; height: 150px; border-radius: 50%;
+  background: radial-gradient(circle, #fff6d0 0%, #ffcc4d 45%, #ff9a1f 70%, transparent 72%);
+  box-shadow: 0 0 120px 40px rgba(255, 190, 70, 0.35);
+}
+.sc-moon {
+  position: absolute; right: 30%; bottom: 14%; width: 80px; height: 80px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #f4f1e8, #b9b5ab 70%);
+  box-shadow: inset -22px -8px 0 rgba(0,0,0,0.55), 0 0 30px rgba(255,255,255,0.15);
+}
+
+/* ---------- scenery: atmosphere ---------- */
+.sc-earth {
+  position: absolute; left: -10%; right: -10%; bottom: -78%; height: 110%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 20%, #3b8ed1, #1b4f8a 60%, #0d2a4f);
+  box-shadow: 0 -20px 60px 20px rgba(120, 190, 255, 0.45);
+}
+.sc-cloud {
+  position: absolute; width: 260px; height: 70px; border-radius: 60px;
+  background: rgba(255,255,255,0.75); filter: blur(6px);
+}
+.sc-cloud::before, .sc-cloud::after {
+  content: ""; position: absolute; background: inherit; border-radius: 50%;
+}
+.sc-cloud::before { width: 120px; height: 100px; left: 40px; top: -45px; }
+.sc-cloud::after { width: 90px; height: 80px; left: 130px; top: -30px; }
+.sc-cloud.c1 { left: 8%; top: 22%; }
+.sc-cloud.c2 { right: 6%; top: 58%; transform: scale(0.7); opacity: 0.8; }
+.sc-cloud.c3 { right: 18%; top: 14%; transform: scale(0.8); opacity: 0.85; }
+.sc-meteor {
+  position: absolute; top: 8%; left: 70%; width: 140px; height: 2px;
+  background: linear-gradient(90deg, rgba(255,220,150,0), #ffd27a);
+  transform: rotate(-35deg); animation: meteor 4s linear infinite;
+}
+.sc-meteor.m2 { left: 40%; top: 2%; animation-delay: 2.2s; }
+@keyframes meteor {
+  0% { transform: translate(0, 0) rotate(-35deg); opacity: 0; }
+  10% { opacity: 1; }
+  40% { transform: translate(-260px, 180px) rotate(-35deg); opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* ---------- scenery: town ---------- */
+.sc-skyline {
+  position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 34%;
+  fill: rgba(30, 14, 30, 0.55);
+}
+.zone-town:nth-of-type(5) .sc-skyline { fill: rgba(25, 12, 32, 0.7); }
+.zone-town:nth-of-type(6) .sc-skyline { fill: rgba(15, 10, 28, 0.85); }
+
+/* ---------- scenery: sea ---------- */
+.sc-wave {
+  position: absolute; top: 0; left: 0; width: 200%; height: 60px;
+  fill: rgba(120, 200, 235, 0.25); animation: wave 8s linear infinite;
+}
+@keyframes wave { to { transform: translateX(-50%); } }
+.sc-rays {
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(100deg, rgba(160,220,255,0.07) 0 30px, transparent 30px 110px);
+  mask-image: linear-gradient(180deg, #000, transparent 70%);
+  -webkit-mask-image: linear-gradient(180deg, #000, transparent 70%);
+}
+.sc-bubbles span {
+  position: absolute; bottom: -20px; width: 12px; height: 12px; border-radius: 50%;
+  border: 1.5px solid rgba(200,240,255,0.6); animation: bubble 9s linear infinite;
+}
+.sc-bubbles span:nth-child(1) { left: 12%; animation-delay: 0s; }
+.sc-bubbles span:nth-child(2) { left: 28%; width: 8px; height: 8px; animation-delay: 2s; }
+.sc-bubbles span:nth-child(3) { left: 47%; animation-delay: 4s; }
+.sc-bubbles span:nth-child(4) { left: 63%; width: 18px; height: 18px; animation-delay: 1s; }
+.sc-bubbles span:nth-child(5) { left: 80%; animation-delay: 3s; }
+.sc-bubbles span:nth-child(6) { left: 92%; width: 9px; height: 9px; animation-delay: 6s; }
+@keyframes bubble {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translateY(-105vh) translateX(20px); opacity: 0; }
+}
+
+/* ---------- the end: all exhibits ---------- */
+.dive-end { text-align: center; }
+.dive-end .screen-inner { width: 100%; }
+.end-title { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+.dive-end #topic-list { margin-bottom: 30px; }
+.dive-end .t-num { display: none; }
+.credit-line { color: var(--muted); font-size: 0.85rem; margin-top: 30px; }
+
+/* ---------- phones ---------- */
+@media (max-width: 760px) {
+  .dive-stop { padding: 50px 34px 50px 14px; }
+  .stop-card, .stop-card.right { margin: 0 auto; padding: 24px 20px; }
+  #dive-rail { right: 8px; gap: 10px; }
+  .rail-label, .rail-depth { display: none; }
+  .sc-sun { width: 90px; height: 90px; }
+}
+
+/* People who prefer less motion get a calm version */
+@media (prefers-reduced-motion: reduce) {
+  .sc-stars, .sc-meteor, .sc-wave, .sc-bubbles span, .hero-scroll span { animation: none; }
+  .stop-card { transition: none; opacity: 1; transform: none; }
+}
