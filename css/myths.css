@@ -1,0 +1,38 @@
+/* myths.css — Myth or Fact swipe cards */
+.myth-wrap { max-width: 760px; margin: 0 auto; text-align: center; }
+.myth-stage { position: relative; display: flex; align-items: center; justify-content: center; gap: 18px; margin: 18px 0; }
+.myth-hint { font-weight: 800; font-size: 0.9rem; opacity: 0.45; letter-spacing: 0.08em; }
+.myth-hint.left { color: var(--bad); } .myth-hint.right { color: var(--good); }
+.myth-card {
+  width: min(460px, 70vw); min-height: 230px; padding: 30px 26px;
+  display: flex; flex-direction: column; justify-content: center; gap: 14px;
+  background: linear-gradient(160deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)), var(--bg2);
+  border: 3px solid var(--line); border-radius: 22px; box-shadow: 0 18px 50px rgba(0,0,0,0.45);
+  cursor: grab; touch-action: pan-y; user-select: none;
+  transition: transform 0.35s cubic-bezier(.2,.8,.2,1), border-color 0.2s, background 0.3s;
+}
+.myth-card.dragging { transition: none; cursor: grabbing; }
+.myth-card.lean-fact { border-color: var(--good); }
+.myth-card.lean-myth { border-color: var(--bad); }
+.myth-card.flip { animation: mythFlip 0.5s; cursor: default; }
+.myth-card.is-fact { border-color: var(--good); background: rgba(61,220,151,0.12); }
+.myth-card.is-myth { border-color: var(--bad); background: rgba(255,107,107,0.12); }
+@keyframes mythFlip { 0% { transform: rotateY(0); } 50% { transform: rotateY(90deg); } 100% { transform: rotateY(0); } }
+.myth-s { font-size: clamp(1.2rem, 2.4vw, 1.6rem); font-weight: 800; line-height: 1.35; }
+.myth-swipe { font-size: 0.8rem; color: var(--muted); }
+.myth-btns { display: flex; gap: 14px; justify-content: center; }
+.myth-btns .btn { min-width: 150px; font-size: 1.1rem; }
+.myth-no { background: var(--bad); border-color: var(--bad); }
+.myth-yes { background: var(--good); border-color: var(--good); }
+.myth-why { text-align: start; margin-top: 16px; }
+.myth-ref { margin-top: 8px; font-size: 0.85rem; color: var(--gold-soft); }
+@media (max-width: 760px) { .myth-hint { display: none; } .myth-card { width: 100%; min-height: 190px; } .myth-btns .btn { min-width: 0; flex: 1; } }
+
+/* phones: the top bar becomes ONE row you can scroll sideways, instead of many rows */
+@media (max-width: 760px) {
+  #topbar { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding: 8px 10px; gap: 8px; }
+  #topbar::-webkit-scrollbar { display: none; }
+  #topbar .tb-title { flex: 0 0 auto; max-width: 62vw; margin-right: 6px; font-size: 1rem; }
+  #topbar .tb-title > div { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #topbar .nav-btn { flex: 0 0 auto; white-space: nowrap; }
+}

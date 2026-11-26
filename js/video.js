@@ -182,6 +182,7 @@
   }
 
   function markSentence(j) {
+    if (j < 0) return;               // between sentences: keep the last one on screen
     $("vb-caption").querySelectorAll("span[data-s]").forEach((el) => el.classList.toggle("on", +el.dataset.s === j));
   }
   function progress(seconds) {   // animate the current segment's fill
@@ -261,6 +262,7 @@
 
   function finish() {
     cancelAudio();
+    if (typeof VIDEO.onend === "function") { try { VIDEO.onend(); } catch (e) { console.error(e); } }
     playing = false; $("vb-play").textContent = "↺";
     $("vb-segs").querySelectorAll("span").forEach((s) => (s.className = "done"));
     const t = APP().topic;
@@ -341,7 +343,10 @@
       document.querySelectorAll(".nav-btn").forEach((b) => b.classList.toggle("on", b.dataset.view === "explore"));
       if (APP()) APP().resize();
     },
-    get playing() { return active; }
+    get playing() { return active; },
+    /** Start the narrated tour directly (used by kiosk mode). */
+    tour() { if (APP() && APP().topic) startTour(); },
+    onend: null
   };
   window.VIDEO = VIDEO;
 })();

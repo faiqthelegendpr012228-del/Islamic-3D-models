@@ -106,6 +106,10 @@
           <p class="subtitle">From the sky above to the depths below: <i>signs for people who reflect.</i> Jump straight to any exhibit:</p>
           <div id="topic-list"></div>
           <button class="btn ghost" id="dive-top">↑ Back to space</button>
+          <div class="end-tools">
+            <button class="btn ghost small" id="dive-glossary">📚 Glossary</button>
+            <button class="btn ghost small" id="dive-kiosk" title="Self-running tour for an exhibition screen (or press K)">▶ Kiosk mode</button>
+          </div>
           <p class="credit-line">${(cfg.members || []).map((m) => m.name).join(" · ")} · ${cfg.className || ""}</p>
         </div>
       </section>`;
@@ -125,6 +129,8 @@
     $("dive-rail").querySelectorAll(".rail-dot").forEach((b) =>
       b.addEventListener("click", () => $(b.dataset.target).scrollIntoView({ behavior: "smooth" })));
     $("dive-top").addEventListener("click", () => $("stop-hero").scrollIntoView({ behavior: "smooth" }));
+    $("dive-kiosk").addEventListener("click", () => window.KIOSK && KIOSK.start());
+    $("dive-glossary").addEventListener("click", () => window.GLOSSARY && GLOSSARY.open());
 
     // Cards fade/slide in when they come into view; the rail follows along
     const io = new IntersectionObserver((entries) => {

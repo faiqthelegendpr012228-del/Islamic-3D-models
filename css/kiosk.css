@@ -1,0 +1,14 @@
+/* kiosk.css — self-running tour badge */
+#kiosk-badge {
+  position: fixed; top: 14px; left: 50%; transform: translateX(-50%); z-index: 300;
+  display: none; align-items: center; gap: 10px;
+  background: rgba(8, 19, 31, 0.85); color: var(--gold-soft);
+  border: 1px solid var(--line); border-radius: 999px; padding: 8px 18px;
+  font-size: 0.9rem; font-weight: 700; pointer-events: none;
+  box-shadow: 0 8px 26px rgba(0,0,0,0.45);
+}
+body.kiosk #kiosk-badge { display: inline-flex; }
+.kb-dot { width: 10px; height: 10px; border-radius: 50%; background: #ff6b8a; animation: kbPulse 1.4s infinite; }
+@keyframes kbPulse { 50% { opacity: 0.3; } }
+body.kiosk #hud { display: none; }
+.end-tools { display: flex; gap: 10px; justify-content: center; margin-top: 14px; flex-wrap: wrap; }

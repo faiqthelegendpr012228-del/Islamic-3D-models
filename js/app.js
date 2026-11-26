@@ -428,15 +428,19 @@
   function setView(v) {
     if (v === "video") { if (window.VIDEO) VIDEO.start(); return; }
     if (window.VIDEO) VIDEO.stop();
-    if (v === "home") { clearScene(); location.hash = ""; showScreen("screen-topics"); return; }
+    if (v === "home") {
+      ["refs", "life", "quiz", "credits", "myths"].forEach((n) => { const o = $("view-" + n); if (o) o.classList.remove("open"); });
+      clearScene(); location.hash = ""; showScreen("screen-topics"); return;
+    }
     if (v === "present") { startPresentation(); return; }
     currentView = v;
     document.querySelectorAll(".nav-btn").forEach((b) => b.classList.toggle("on", b.dataset.view === v));
-    ["refs", "life", "quiz", "credits"].forEach((n) => $("view-" + n).classList.toggle("open", n === v));
+    ["refs", "life", "quiz", "credits", "myths"].forEach((n) => { const o = $("view-" + n); if (o) o.classList.toggle("open", n === v); });
     $("tools").style.display = v === "explore" ? "" : "none";
     resize();
     if (v !== "explore") closeInfo();
     if (v === "quiz") startQuiz();
+    if (v === "myths" && window.MYTH_CARDS) MYTH_CARDS.start(topic.id);
     if (v === "credits") buildCredits();
     if (v !== "explore" && presenting) stopPresentation();
   }
