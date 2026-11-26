@@ -26,5 +26,14 @@ window.APP_CONFIG = {
   // 85 g × 487.50 AED per gram (24 carat) = 41,437.50 AED.
   // Gold prices change every day — check today's price and update this,
   // or type the current value into the calculator during the demo.
-  defaultNisab: 41437.50
+  defaultNisab: 41437.50,
+
+  // OPTIONAL: your own recorded videos (e.g. made in CapCut).
+  // Leave a topic out (or empty) and its "Watch video" button plays the
+  // narrated 3D tour instead. You can use a YouTube link, or a video file
+  // put in a "videos" folder (keep each file under 100 MB for GitHub).
+  //   atm: "https://youtu.be/XXXXXXXXXXX",
+  //   waqf: "videos/waqf.mp4",
+  videos: {
+  }
 };

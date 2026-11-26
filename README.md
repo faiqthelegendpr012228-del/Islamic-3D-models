@@ -1,7 +1,16 @@
-# Signs & Systems: Islamic Studies 3D Models
+# Signs & Systems: an interactive Islamic studies museum
 
-Six interactive 3D models that connect the Qur'an and Sunnah to science, money and everyday life.
-**The teacher (or the group) picks which topic to open** from the first screen.
+Six interactive 3D exhibits that connect the Qur'an and Sunnah to science, money and everyday life.
+
+🌐 **Live website:** https://faiqthelegendpr012228-del.github.io/Islamic-3D-models/
+
+**Website features**
+- 🌍 **The dive homepage:** one scroll from space to the sea floor, with an exhibit at each stop.
+- 💳 **Shared wallet:** the ATM, Market and Waqf use the same money: withdraw and pay zakat → invest halally → give a waqf. See it all in **My money journey**.
+- 🎬 **Watch video:** each exhibit plays its 8 steps by itself with a recorded narrator and subtitles that follow the voice. Choose **English** (4 voices: Michael, George, Heart, Puck) or **العربية** (Arabic narration by an ElevenLabs voice, with Arabic subtitles). Arabic words like *Allah*, *Assalamu alaikum* and the surah names are pronounced the Arabic way. You can also add your own recorded videos (see below).
+- ❓ **Quizzes** with questions and answers shuffled every time.
+- 🛂 **Explorer's passport:** score 4/5 or more in a quiz to earn that exhibit's stamp. All six stamps unlock a printable **certificate**.
+- ↺ **New visitor** (in the passport) clears the wallet and stamps for the next person.
 
 | # | Topic | Category |
 |---|---|---|
@@ -16,9 +25,12 @@ Six interactive 3D models that connect the Qur'an and Sunnah to science, money a
 
 ## ▶️ How to open it
 
+**Online:** open the live website link above (works on phones too).
+
+**Offline:**
 1. Open the folder **Islamic-Studies-3D**.
 2. **Double-click `index.html`.** It opens in Chrome (or Edge).
-3. Click a topic card, then **▶ Start**.
+3. Scroll down to a topic, click **Enter exhibit ▶**, then **▶ Start** (or **🎬 Watch the video**).
 
 That's it: no installing and no server.
 ⚠️ **You need an internet connection.** The 3D engine (Three.js) loads from the internet the first time the page opens.
@@ -35,6 +47,7 @@ Topic names: `atm`, `sky`, `waqf`, `clock`, `market`, `ocean`.
 | 🧭 **Explore** | The 3D model. Drag to rotate, scroll to zoom, right-drag to move. Click the glowing labels (hotspots) and use the panel on the right. |
 | 📖 **Qur'an & Hadith** | Every verse and hadith for this topic, with its exact reference. |
 | 🏠 **Real Life** | 4 everyday examples for students and families. Click a card for a weekly challenge. |
+| 🎬 **Watch video** | The narrated tour: the model moves by itself, a recorded voice explains, subtitles follow along. Pick **English / العربية** and the voice at the bottom of the player. Space = pause, ← → = back / next. |
 | 🎤 **Presentation Mode** | A guided 2-minute demo in 8 steps. It shows **which member is speaking**. Use **Next / Back** (or the arrow keys / a clicker). |
 | ❓ **Quiz** | 5 multiple-choice questions for the audience, with explanations. |
 | ⭐ **Credits** | Group members and their roles. |
@@ -48,7 +61,17 @@ Topic names: `atm`, `sky`, `waqf`, `clock`, `market`, `ocean`.
 List 1 to 4 people here. With one person, they present every step of Presentation Mode. Names update **everywhere**: start screen, Presentation Mode, credits and the info card.
 You can also change the school name, class, teacher, currency (`AED`) and the default nisab value (now **41,437.50 AED** = 85 g × 487.50 AED per gram of 24-carat gold; update it when the gold price changes).
 
-### 2. The Arabic text → `js/references.js`
+### 2. Your own videos (optional) → `js/config.js`
+Made a video in CapCut? Add it under `videos`, using a YouTube link or a file in a `videos` folder (under 100 MB):
+```js
+videos: {
+  atm: "https://youtu.be/XXXXXXXXXXX",
+  waqf: "videos/waqf.mp4",
+}
+```
+That topic's **🎬 Watch video** button then lets visitors choose your video or the narrated 3D tour.
+
+### 3. The Arabic text → `js/references.js`
 We did **not** type Arabic from memory, to avoid mistakes. Every reference has a yellow placeholder like this:
 
 ```js
@@ -77,6 +100,13 @@ arabic: "[PASTE ARABIC TEXT HERE from quran.com/2/275]",
 | `js/content.js` | All other text: info panels, real-life examples, presentation steps, quiz questions, info-card features. |
 | `js/helpers3d.js` | Small reusable 3D building blocks (box, house, tree, person, glowing dot, text signs, Earth texture). |
 | `js/app.js` | The "engine": sets up the 3D view, handles clicks, panels, Presentation Mode and the quiz. |
+| `js/dive.js` + `css/dive.css` | The homepage journey from space to the sea. |
+| `js/wallet.js` + `css/wallet.css` | The shared wallet and the **My money journey** screen. |
+| `js/passport.js` + `css/passport.css` | Passport stamps and the certificate. |
+| `js/video.js` + `css/video.css` | The **🎬 Watch video** player (narration and subtitles). |
+| `js/narration.js` + `audio/` | The recorded narration (4 English voices + 1 Arabic voice, × 6 topics × 8 steps) and its subtitle timings. Arabic voice by ElevenLabs (credited on the Credits page). |
+| `tools/narration/` | Scripts that recorded the voices. Only needed if you change the narration text (see its README). |
+| `print/qr-stand-A5.pdf` | Printable QR code sign for the exhibition stand. |
 | `js/scenes/atm.js` | Topic 1: the ATM, Zakat calculator, Riba Check, Sadaqah coins, sorting game. |
 | `js/scenes/sky.js` | Topic 2: Earth, atmosphere layers, meteors, UV rays and ozone. |
 | `js/scenes/waqf.js` | Topic 3: the village, donated assets, timeline and counter. |
@@ -109,6 +139,15 @@ arabic: "[PASTE ARABIC TEXT HERE from quran.com/2/275]",
 
 ---
 
+## 🚀 Updating the live website
+After any change, run in the project folder:
+```
+git add -A
+git commit -m "what you changed"
+git push
+```
+GitHub rebuilds the site in 1–2 minutes (check the **Actions** tab for a green tick). If you still see the old version, open a private window or press **Ctrl + Shift + R**.
+
 ## 🛠️ Troubleshooting
 
 | Problem | Fix |
@@ -116,4 +155,5 @@ arabic: "[PASTE ARABIC TEXT HERE from quran.com/2/275]",
 | "The 3D engine could not load" | Connect to the internet and reload (Three.js comes from a CDN). |
 | It's slow on an old laptop | Close other tabs. Make the browser window smaller. |
 | Text too small on the projector | Press **Ctrl +** to zoom the page. |
+| 🎬 Video has subtitles but no voice | Check the 🔊 button isn't muted and the computer's sound is on. If the audio files can't load (no internet), the computer's own voice is used, or the subtitles play on their own. |
 | Info card prints on 2 pages | In the print dialog choose **Paper size: A5**, **Margins: Default**, **Scale: 100%**. |

@@ -1,17 +1,51 @@
-# 🎤 Demo Script: 2-Minute Presentation
+# 🎤 Demo Script
 
 **Presenter:** Muhammad Faiq Naveed
+**Live website:** https://faiqthelegendpr012228-del.github.io/Islamic-3D-models/
 
-This script matches **Presentation Mode** in the app, step by step.
+This file has two parts:
+- **Part A: the 2-minute website pitch** for judges and visitors (the whole museum).
+- **Part B: one 2-minute script per topic**, matching **Presentation Mode** inside each exhibit.
+
+---
+
+## Part A · ⭐ The 2-minute website pitch
+
+**Before you start:** open the site, click the 🛂 passport button, then **↺ New visitor** (tap twice) so the wallet and stamps are empty. Scroll back to the top.
+
+| Time | What to say | What to do on screen |
+|---|---|---|
+| 0:00–0:20 | "Assalamu alaikum! This is **Signs & Systems**, an interactive Islamic studies museum. Most lessons are verses and notes to memorise. Here, students *explore* the teachings instead of just reading them." | The homepage hero (stars, title). |
+| 0:20–0:45 | "The homepage is one journey from space to the sea floor. Each stop is a 3D exhibit: the **Cosmic Clock**, the **Sky Shield**, three **finance** exhibits in the town, and the **Ocean**." | Scroll slowly down the dive. Point at the rail on the right. |
+| 0:45–1:15 | "The three finance exhibits share **one wallet**. At the Halal ATM I withdraw my savings and pay zakat. If I ask for an interest loan, it's refused, because riba is forbidden in 2:275." | Enter the ATM → **Withdraw my savings** → **Pay zakat** → **Ask for an interest loan**. |
+| 1:15–1:35 | "Then I invest that money halally in the market, sharing profit *and* risk, and give part of it as a **waqf** that keeps giving for 300 years." | Click the 💳 wallet button → show **My money journey**. |
+| 1:35–1:50 | "Every exhibit has a **narrated video**, and a quiz with shuffled answers. Pass it and you earn a **passport stamp**. Collect all six for a certificate." | Open any exhibit → **🎬 Watch video** for 5 seconds → open the 🛂 passport. |
+| 1:50–2:00 | "So it isn't just a project. Students can use it to revise, and teachers can use it in class. Scan the QR code to try it on your phone. JazakAllahu khairan!" | Point at the QR code sign. |
+
+**If the internet fails:** play your backup screen recording instead and say the same lines.
+
+### ✅ Exhibition-day checklist
+- [ ] Laptop charged, charger packed, browser zoom at 100% (Ctrl + 0)
+- [ ] Site opened and tested on the venue Wi-Fi; backup video saved on the desktop
+- [ ] QR code sign printed (`print/qr-stand-A5.pdf`, A5 or A4)
+- [ ] Sound on (for **🎬 Watch video**); test the voice once
+- [ ] Press **↺ New visitor** in the passport between visitors
+- [ ] Practise the pitch with a stopwatch at least 3 times
+
+---
+
+## Part B · One script per topic (Presentation Mode)
+
 Each topic has **8 steps** of about **15 seconds** each, **2 minutes in total**. You present every step.
 
-**How to run the demo**
-1. Open `index.html` and click your topic, then **▶ Start**.
+**How to run a topic demo**
+1. Open the site, scroll to the topic and click **Enter exhibit ▶**, then **▶ Start**.
 2. Click **🎤 Presentation Mode** in the top bar.
 3. Read the lines for each step, then press **Next ▶** (or the → arrow key / a presentation clicker).
-4. After step 8, **Next** opens the **Quiz** for the audience. Finish on **⭐ Credits**.
+4. After step 8, **Next** opens the **Quiz** for the audience (questions and answers are shuffled each time).
 
 > Tip: practise with a stopwatch. Aim for about 15 seconds per step (roughly 30–35 words). Look at the audience, not the screen, and point at the 3D model while it moves.
+> No presenter? **🎬 Watch video** plays the same 8 steps by itself with a narrator voice and subtitles.
 
 
 ---

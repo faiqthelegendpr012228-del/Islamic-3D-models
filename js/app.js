@@ -92,9 +92,24 @@
   window.APP_OPEN = showStart;   // used by the dive homepage (dive.js)
   window.APP_ENTER = (id) => openTopic(id);   // used by the wallet journey (wallet.js)
   window.APP_QUIZ = (id) => { openTopic(id); setView("quiz"); };   // used by the passport (passport.js)
+  // used by the video player (video.js)
+  window.APP_API = {
+    get topic() { return topic; },
+    runAction(name) {
+      if (sceneApi && sceneApi.actions && sceneApi.actions[name]) {
+        try { sceneApi.actions[name](); } catch (err) { console.error("Video step failed:", name, err); }
+      }
+    },
+    clearTimers: () => clearTimers(),
+    closeInfo: () => closeInfo(),
+    setView: (v) => setView(v),
+    openTopic: (id) => openTopic(id),
+    resize: () => resize()
+  };
 
   $("btn-back-topics").onclick = () => { location.hash = ""; showScreen("screen-topics"); };
   $("btn-start").onclick = () => openTopic(topic.id);
+  $("btn-watch").onclick = () => { openTopic(topic.id); if (window.VIDEO) VIDEO.start(); };
 
   // =====================================================================
   // 3. THREE.JS SETUP (created once, reused by every topic)
@@ -220,6 +235,7 @@
   // 5. OPEN A TOPIC (build its 3D scene)
   // =====================================================================
   function openTopic(id) {
+    if (window.VIDEO) VIDEO.stop();
     topic = TOPICS.find((t) => t.id === id);
     document.documentElement.style.setProperty("--accent", topic.accent);
     clearScene();
@@ -410,6 +426,8 @@
   document.querySelectorAll(".nav-btn").forEach((b) => b.addEventListener("click", () => setView(b.dataset.view)));
 
   function setView(v) {
+    if (v === "video") { if (window.VIDEO) VIDEO.start(); return; }
+    if (window.VIDEO) VIDEO.stop();
     if (v === "home") { clearScene(); location.hash = ""; showScreen("screen-topics"); return; }
     if (v === "present") { startPresentation(); return; }
     currentView = v;
@@ -459,7 +477,8 @@
       <div class="result-box" style="max-width:800px;margin:20px auto">
         <b>Islamic sources:</b> ${topic.refs.map((r) => REFERENCES[r].ref).join(" · ")}<br>
         <small>Qur'an translation: Sahih International (quran.com). Hadith: sunnah.com.<br>
-        3D graphics: Three.js (open-source). Models are simplified and not to scale.</small>
+        3D graphics: Three.js (open-source). Models are simplified and not to scale.<br>
+        🎬 Video narration: English voices by Kokoro (open-source). Arabic voice by <a href="https://elevenlabs.io" target="_blank" rel="noopener">ElevenLabs</a>.</small>
       </div>
       <div style="text-align:center;margin-top:20px">
         <button class="btn accent" id="cr-again">↺ Back to the model</button>
@@ -473,11 +492,23 @@
   // =====================================================================
   // 10. QUIZ
   // =====================================================================
-  let quizIndex = 0, quizScore = 0;
-  function startQuiz() { quizIndex = 0; quizScore = 0; renderQuiz(); }
+  let quizIndex = 0, quizScore = 0, quizQs = [];
+  function shuffle(a) {
+    const b = a.slice();
+    for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; }
+    return b;
+  }
+  // Every time a quiz starts, the questions AND the answer options come in a new random order.
+  function startQuiz() {
+    quizQs = shuffle(topic.quiz).map((q) => {
+      const order = shuffle(q.options.map((_, i) => i));
+      return Object.assign({}, q, { options: order.map((i) => q.options[i]), answer: order.indexOf(q.answer) });
+    });
+    quizIndex = 0; quizScore = 0; renderQuiz();
+  }
 
   function renderQuiz() {
-    const qs = topic.quiz;
+    const qs = quizQs;
     const body = $("quiz-body");
     if (quizIndex >= qs.length) {
       const pct = quizScore / qs.length;

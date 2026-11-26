@@ -27,6 +27,8 @@ body:not([data-screen="app"]) #hud { bottom: 16px; }
 body.presenting #hud { display: none; }
 /* hide while the left info panel is open (the panel on the right still shows the balance) */
 body:has(#info.open) #hud { display: none; }
+/* also hide over the Quiz, Qur'an & Hadith, Real Life and Credits pages, and while a video plays */
+body:has(.overlay.open) #hud, body.video-mode #hud { display: none; }
 
 /* ---------- journey overlay ---------- */
 .modal {
