@@ -15,6 +15,22 @@
   <link rel="stylesheet" href="css/myths.css">
   <link rel="stylesheet" href="css/i18n.css">
   <link rel="stylesheet" href="css/ar.css">
+  <link rel="stylesheet" href="css/tools.css">
+  <!-- install as an app + works with no Wi-Fi (sw.js) -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#08131f">
+  <link rel="icon" href="images/icon-192.png">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Signs &amp; Systems">
+  <!-- easy-read options (⚙ Settings) applied before the page draws, so it doesn't flicker -->
+  <script>
+    try {
+      var ez = JSON.parse(localStorage.getItem("signs-systems-easyread")) || {}, c = document.documentElement.classList;
+      if (ez.size === 1) c.add("ez-l"); if (ez.size === 2) c.add("ez-xl");
+      if (ez.dys) c.add("ez-dys"); if (ez.hc) c.add("ez-hc"); if (ez.calm) c.add("ez-calm");
+    } catch (e) {}
+  </script>
 </head>
 <body>
 
@@ -145,5 +161,11 @@
   <script src="js/glossary.js"></script>
   <script src="js/myths-data.js"></script>
   <script src="js/myths.js"></script>
+  <!-- Toolkit: prayer times, zakat calculator, then & now, settings (easy-read + offline) -->
+  <script src="js/prayer.js"></script>
+  <script src="js/zakat.js"></script>
+  <script src="js/timeline.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/toolkit.js"></script>
 </body>
 </html>

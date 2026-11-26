@@ -108,6 +108,7 @@
           <div id="topic-list"></div>
           <button class="btn ghost" id="dive-top">↑ Back to space</button>
           <div class="end-tools">
+            <button class="btn ghost small" id="dive-toolkit">🧰 Toolkit</button>
             <button class="btn ghost small" id="dive-glossary">📚 Glossary</button>
             <button class="btn ghost small" id="dive-kiosk" title="The website plays all six exhibits by itself (or press K)">▶ Auto tour</button>
           </div>
@@ -132,6 +133,7 @@
     $("dive-top").addEventListener("click", () => $("stop-hero").scrollIntoView({ behavior: "smooth" }));
     $("dive-kiosk").addEventListener("click", () => window.KIOSK && KIOSK.start());
     $("hero-kiosk").addEventListener("click", () => window.KIOSK && KIOSK.start());
+    $("dive-toolkit").addEventListener("click", () => window.TOOLKIT && TOOLKIT.open());
     $("dive-glossary").addEventListener("click", () => window.GLOSSARY && GLOSSARY.open());
 
     // Cards fade/slide in when they come into view; the rail follows along

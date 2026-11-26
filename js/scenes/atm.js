@@ -260,9 +260,11 @@ TOPIC_SCENES.atm = function (ctx) {
         <button class="btn accent" id="z-calc" style="width:100%">Calculate Zakat</button>
       </div>
       <div id="z-out"></div>
-      <button class="btn ghost small" id="z-who" style="width:100%">Who receives zakat? (9:60)</button>`;
+      <button class="btn ghost small" id="z-who" style="width:100%">Who receives zakat? (9:60)</button>
+      <button class="btn small" id="z-family" style="width:100%;margin-top:6px">🧮 Full family calculator (gold in grams)</button>`;
     tabEl.querySelector("#z-calc").onclick = calcZakat;
     tabEl.querySelector("#z-who").onclick = showRecipients;
+    tabEl.querySelector("#z-family").onclick = () => window.ZAKAT && ZAKAT.open();
     tabEl.querySelectorAll("input").forEach((i) => i.oninput = calcZakat);
     drawScreen("ZAKAT", ["Enter your savings", "on the right-hand panel", "Zakat = 2.5% above nisab"]);
   }

@@ -55,7 +55,7 @@ TOPIC_SCENES.clock = function (ctx) {
     observer.quaternion.setFromUnitVectors(Y, p.clone().normalize());
   }
   placeObserver();
-  const obsLabel = ctx.hotspot(head, "🧍 You", "prayer", { offset: new THREE.Vector3(0, 0.35, 0), visible: () => mode === "prayer" });
+  const obsLabel = ctx.hotspot(head, "🧍 You", "prayer", { offset: new THREE.Vector3(0, 0.35, 0), visible: () => mode !== "moon" });
 
   // ---------------- Moon ----------------
   const MOON_R = 3.6;
@@ -159,7 +159,8 @@ TOPIC_SCENES.clock = function (ctx) {
   ctx.tools.innerHTML = `
     <h3>🌙 Cosmic Clock</h3>
     <div class="how">${ctx.topic.howTo}</div>
-    <div class="seg"><button data-m="moon" class="on">🌙 Moon & Hijri</button><button data-m="prayer">🕌 Prayer Times</button></div>
+    <div class="seg"><button data-m="moon" class="on">🌙 Moon & Hijri</button><button data-m="prayer">🕌 Prayer Times</button><button data-m="today">📍 Today</button></div>
+    <div id="c-today" style="display:none"><div class="tool-section" id="c-today-card"></div></div>
     <div id="c-moon">
       <div class="tool-section">
         <div style="display:flex;gap:14px;align-items:center">
@@ -269,7 +270,16 @@ TOPIC_SCENES.clock = function (ctx) {
       $t("#c-hour").textContent = fmt(hour);
       $t("#c-alt").textContent = sunAltitude(hour).toFixed(1) + "°";
       $t("#c-latv").textContent = latitude + "°";
-      const cp = currentPrayer(hour);
+      let cp = currentPrayer(hour);
+      // 📍 Today: use the real timetable for the label, not the equinox model
+      if (mode === "today" && todayCard && todayCard.last) {
+        const r = todayCard.last, AR = window.I18N && I18N.lang === "ar";
+        const nm = AR ? { fajr: "الفجر", dhuhr: "الظهر", asr: "العصر", maghrib: "المغرب", isha: "العشاء" }
+                      : { fajr: "Fajr", dhuhr: "Dhuhr", asr: "Asr", maghrib: "Maghrib", isha: "Isha" };
+        const where = AR ? (r.place.ar || "موقعك") : (r.place.en || "your location");
+        cp = r.current ? { name: nm[r.current], text: AR ? `الآن: وقت ${nm[r.current]} في ${where}` : `Now: ${nm[r.current]} time in ${where}` }
+                       : { name: "—", text: AR ? "الآن: بعد الشروق وقبل الظهر" : "Now: after sunrise, before Dhuhr" };
+      }
       $t("#c-now").textContent = cp.text;
       $t("#c-times").innerHTML = prayerTimes().map((p) => `<b style="color:${p.color}">${p.name}</b> ${fmt(p.t)}`).join(" · ") +
         "<br>Local solar time at the equinox. Real clock times depend on your longitude, time zone and season.";
@@ -282,11 +292,30 @@ TOPIC_SCENES.clock = function (ctx) {
     mode = m;
     ctx.tools.querySelectorAll("[data-m]").forEach((b) => b.classList.toggle("on", b.dataset.m === m));
     $t("#c-moon").style.display = m === "moon" ? "" : "none";
-    $t("#c-prayer").style.display = m === "prayer" ? "" : "none";
-    if (m === "prayer") { setOrbits(false); moonAge = 10; viewPrayer(); }
+    $t("#c-prayer").style.display = m !== "moon" ? "" : "none";
+    $t("#c-today").style.display = m === "today" ? "" : "none";
+    if (m === "today") showToday();
+    if (m !== "moon") { setOrbits(false); moonAge = 10; viewPrayer(); }
     else viewSystem();
     refresh();
   }
+  // ----- 📍 Today: real prayer times for the UAE (js/prayer.js) -----
+  let todayCard = null;
+  function showToday() {
+    if (!window.PRAYER) return;
+    if (!todayCard) todayCard = PRAYER.widget($t("#c-today-card"), { onShow: spinToNow, onDraw: () => { if (mode === "today" && todayCard) refresh(); } });
+    else todayCard.redraw();
+    if (todayCard.last) spinToNow(todayCard.last);
+  }
+  /** Turn the model's Earth to the real time of day at that place */
+  function spinToNow(info) {
+    latitude = Math.round(Math.abs(info.place.lat)); placeObserver();
+    $t("#c-lat").value = latitude;
+    const solar = (12 + info.nowH - (info.times.dhuhr - 3 / 60) + 24) % 24;   // hours from local solar noon
+    animateHour(solar, 1.5);
+  }
+  window.CLOCK_TODAY = () => setMode("today");
+
   function animateAge(target) {
     const from = moonAge;
     ctx.tween(1.5, (k) => { moonAge = H3.lerp(from, target, k); refresh(); }, null, "age");

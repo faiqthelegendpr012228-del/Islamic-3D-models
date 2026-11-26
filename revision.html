@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Revision sheets · Signs &amp; Systems</title>
+  <link rel="icon" href="images/icon-192.png">
+  <style>
+    /* revision.html — one printable A4 page per exhibit, plus a teacher's answer key.
+       Everything comes from the same files as the website (content.js, references.js …). */
+    @page { size: A4 portrait; margin: 12mm; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Segoe UI", Poppins, system-ui, Arial, sans-serif; color: #111; background: #e9edf2; font-size: 10pt; line-height: 1.35; }
+    html[lang="ar"] body { font-family: "Segoe UI", "Noto Naskh Arabic", Tahoma, sans-serif; }
+    .bar { position: sticky; top: 0; z-index: 5; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center;
+           padding: 10px 14px; background: #08131f; color: #f6f2e7; font-size: 14px; }
+    .bar select, .bar button, .bar label { font: inherit; }
+    .bar select, .bar button { padding: 7px 12px; border-radius: 999px; border: 1px solid #e8c36a; background: #0f2236; color: #f6f2e7; cursor: pointer; }
+    .bar button.primary { background: #e8c36a; color: #08131f; font-weight: 700; }
+    .bar a { color: #f3dfa6; }
+    .sheet { width: 210mm; min-height: 297mm; margin: 14px auto; padding: 12mm; background: #fff; box-shadow: 0 6px 24px rgba(0,0,0,0.15); position: relative; }
+    .head { display: flex; align-items: center; gap: 12px; border-bottom: 3px solid var(--c, #e8c36a); padding-bottom: 6px; margin-bottom: 8px; }
+    .head .ic { font-size: 30pt; line-height: 1; }
+    .head h1 { margin: 0; font-size: 19pt; color: var(--c, #333); }
+    .head .sub { margin: 0; color: #444; }
+    .head .meta { margin-inline-start: auto; text-align: end; font-size: 8.5pt; color: #666; }
+    .name { display: flex; gap: 24px; font-size: 9.5pt; margin: 0 0 8px; color: #444; }
+    .name span { flex: 1; border-bottom: 1px solid #999; padding-bottom: 2px; }
+    h2 { font-size: 11.5pt; margin: 9px 0 4px; color: #0f2236; text-transform: uppercase; letter-spacing: 0.06em; }
+    html[lang="ar"] h2 { letter-spacing: 0; text-transform: none; }
+    .verses { display: grid; gap: 5px; }
+    .verse { border-inline-start: 3px solid #e8c36a; padding: 3px 9px; background: #faf7ee; }
+    .verse .ar { font-family: "Amiri", "Traditional Arabic", "Scheherazade New", serif; font-size: 13pt; direction: rtl; text-align: right; line-height: 1.7; }
+    .verse .tr { font-style: italic; }
+    .verse .rf { font-size: 8.5pt; color: #666; font-weight: 700; }
+    ul.ideas { margin: 0; padding-inline-start: 18px; }
+    ul.ideas li { margin: 2px 0; }
+    .terms { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 14px; }
+    .terms div { font-size: 9.5pt; }
+    .terms b .a { font-family: "Amiri", "Traditional Arabic", serif; font-weight: 400; font-size: 11pt; color: #555; }
+    .q { margin: 5px 0; break-inside: avoid; }
+    .q .opts { display: grid; grid-template-columns: 1fr 1fr; gap: 1px 14px; padding-inline-start: 18px; font-size: 9.8pt; }
+    .q .opts span::before { content: "☐ "; color: #888; }
+    .foot { position: absolute; bottom: 7mm; left: 12mm; right: 12mm; display: flex; justify-content: space-between; font-size: 8pt; color: #888; border-top: 1px solid #ddd; padding-top: 3px; }
+    .key h1 { font-size: 18pt; margin: 0 0 4px; }
+    .key .topic { margin: 10px 0; break-inside: avoid; }
+    .key .topic h3 { margin: 0 0 3px; font-size: 11.5pt; }
+    .key ol { margin: 0; padding-inline-start: 20px; }
+    .key li { margin: 2px 0; }
+    .key li small { color: #555; }
+    .sheet.measure { width: 186mm !important; min-height: 0 !important; height: auto !important; padding: 0 !important; }
+    @media print {
+      body { background: #fff; }
+      .bar { display: none; }
+      .sheet { margin: 0; box-shadow: none; width: auto; min-height: 0; height: 271mm; padding: 0; page-break-after: always; break-after: page; overflow: hidden; }
+      .sheet:last-child { page-break-after: auto; break-after: auto; }
+      .foot { left: 0; right: 0; bottom: 0; }
+    }
+    @media screen and (max-width: 820px) { .sheet { width: auto; min-height: 0; margin: 10px; padding: 16px 16px 40px; } .q .opts, .terms { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="bar" id="bar"></div>
+  <main id="sheets"></main>
+
+  <script src="js/config.js"></script>
+  <script src="js/references.js"></script>
+  <script src="js/content.js"></script>
+  <script src="js/content-ar.js"></script>
+  <script src="js/references-ar.js"></script>
+  <script src="js/glossary-data.js"></script>
+  <script>
+  (function () {
+    "use strict";
+    const params = new URLSearchParams(location.search);
+    let lang = params.get("lang") || (function () { try { return localStorage.getItem("signs-systems-lang"); } catch (e) { return null; } })() || "en";
+    if (lang !== "ar") lang = "en";
+    const AR = lang === "ar";
+    document.documentElement.lang = lang; document.documentElement.dir = AR ? "rtl" : "ltr";
+    const L = (en, ar) => (AR ? ar : en);
+    const cfg = window.APP_CONFIG || {};
+    const ORDER = ["clock", "sky", "atm", "market", "waqf", "ocean"];
+    const topics = ORDER.map((id) => window.TOPICS.find((t) => t.id === id));
+    const LETTERS = AR ? ["أ", "ب", "ج", "د"] : ["A", "B", "C", "D"];
+    let only = params.get("topic") || "all", withKey = params.get("key") !== "0";
+
+    const strip = (h) => String(h || "").replace(/<li>/g, " • ").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+    const firstSentence = (h) => { const t = strip(h).replace(/^•\s*/, ""); const m = t.match(/^.{20,}?[.!?؟](\s|$)/); return m ? m[0].trim() : t.slice(0, 180); };
+    const clip = (s, n) => { s = String(s || ""); if (s.length <= n) return s; const c = s.slice(0, n); return c.slice(0, c.lastIndexOf(" ")) + " …"; };
+    const esc = (s) => String(s).replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+    const ar = (t) => (window.TOPICS_AR && TOPICS_AR[t.id]) || {};
+
+    function terms(t) {
+      const text = (JSON.stringify(t.info) + t.title + t.subtitle + JSON.stringify(t.quiz) + JSON.stringify(t.realLife)).toLowerCase();
+      return (window.GLOSSARY_TERMS || []).map((g) => ({ g, n: g.match.reduce((s, m) => s + (text.split(m.toLowerCase()).length - 1), 0) }))
+        .filter((x) => x.n > 0).sort((a, b) => b.n - a.n).slice(0, 6).map((x) => x.g);
+    }
+
+    function sheet(t, n, o) {
+      o = o || { ideas: 5, terms: 6 };
+      const a = ar(t);
+      const verses = t.refs.slice(0, 3).map((k) => {
+        const r = REFERENCES[k] || {}, ra = (window.REFERENCES_AR || {})[k] || {};
+        // long hadith: a short excerpt (the reference is there to read it in full); Qur'an verses stay whole
+        const arText = r.type === "hadith" ? clip(r.arabic, 200) : (r.arabic || "");
+        return `<div class="verse"><div class="ar">${arText}</div>
+          ${AR ? (ra.lesson ? `<div>${esc(ra.lesson)}</div>` : "") : `<div class="tr">“${esc(clip(r.translation, 190))}”</div>`}
+          <div class="rf">${esc(AR && ra.ref ? ra.ref : r.ref || "")}</div></div>`;
+      }).join("");
+      const ideas = Object.keys(t.info).filter((k) => k !== "verse").slice(0, o.ideas).map((k) => {
+        const i = (AR && a.info && a.info[k]) ? a.info[k] : t.info[k];
+        return `<li><b>${esc(i.title)}:</b> ${esc(firstSentence(i.text))}</li>`;
+      }).join("");
+      const tm = terms(t).slice(0, o.terms).map((g) => `<div><b>${esc(g.term)} <span class="a">${g.ar}</span></b>: ${esc(AR ? g.arDef : g.en)}</div>`).join("");
+      const quiz = (AR && a.quiz ? a.quiz : t.quiz).map((q, i) => `<div class="q"><b>${i + 1}.</b> ${esc(q.q)}
+          <div class="opts">${q.options.map((o, j) => `<span>${LETTERS[j]}. ${esc(o)}</span>`).join("")}</div></div>`).join("");
+      return `<section class="sheet" data-id="${t.id}" style="--c:${t.accent}">
+        <div class="head"><div class="ic">${t.icon}</div>
+          <div><h1>${esc(AR && a.title ? a.title : t.title)}</h1><p class="sub">${esc(AR && a.subtitle ? a.subtitle : t.subtitle)}</p></div>
+          <div class="meta">${esc(AR && a.category ? a.category : t.category)}<br>${L("Revision sheet", "ورقة مراجعة")} ${n} / 6</div></div>
+        <div class="name"><span>${L("Name", "الاسم")}:</span><span>${L("Class", "الصف")}:</span><span>${L("Score", "الدرجة")}: &nbsp; / 5</span></div>
+        <h2>📖 ${L("Key verses", "آيات رئيسة")}</h2><div class="verses">${verses}</div>
+        <h2>💡 ${L("Key ideas", "أفكار رئيسة")}</h2><ul class="ideas">${ideas}</ul>
+        ${tm ? `<h2>🔤 ${L("Key words", "كلمات مفتاحية")}</h2><div class="terms">${tm}</div>` : ""}
+        <h2>✏️ ${L("Test yourself", "اختبر نفسك")}</h2>${quiz}
+        <div class="foot"><span>${esc(cfg.schoolName || "")} · Signs &amp; Systems</span><span>${withKey ? L("Answers: last page", "الإجابات: الصفحة الأخيرة") : ""}</span></div>
+      </section>`;
+    }
+
+    function key(list) {
+      return `<section class="sheet key"><h1>🔑 ${L("Teacher's answer key", "مفتاح الإجابات للمعلم")}</h1>
+        ${list.map((t) => { const a = ar(t); const qs = AR && a.quiz ? a.quiz : t.quiz;
+          return `<div class="topic"><h3>${t.icon} ${esc(AR && a.title ? a.title : t.title)}</h3><ol>${t.quiz.map((q, i) =>
+            `<li><b>${LETTERS[q.answer]}. ${esc((qs[i] || q).options[q.answer])}</b> <small>${esc((qs[i] || q).explain || "")}</small></li>`).join("")}</ol></div>`; }).join("")}
+        <div class="foot"><span>${esc(cfg.schoolName || "")} · Signs &amp; Systems</span><span>${esc(cfg.teacherName || "")}</span></div></section>`;
+    }
+
+    function render() {
+      const list = only === "all" ? topics : topics.filter((t) => t.id === only);
+      document.getElementById("sheets").innerHTML = list.map((t) => sheet(t, ORDER.indexOf(t.id) + 1)).join("") + (withKey ? key(list) : "");
+      fitAll();
+      document.title = L("Revision sheets · Signs & Systems", "أوراق المراجعة · دلائل وأنظمة");
+    }
+
+    // ---------- make every sheet fit one A4 page ----------
+    // measure at the printed size; shrink the text a little, then drop the last idea / key word
+    const MM = 96 / 25.4, LIMIT = 262 * MM;      // 273 mm page area minus the footer
+    function fits(el) { return el.scrollHeight <= LIMIT; }
+    function fitOne(el) {
+      el.classList.add("measure");
+      let pt = 10;
+      el.style.fontSize = pt + "pt";
+      while (!fits(el) && pt > 8.75) { pt -= 0.25; el.style.fontSize = pt + "pt"; }
+      const ok = fits(el);
+      el.classList.remove("measure");
+      return ok;
+    }
+    function fitAll() {
+      document.querySelectorAll(".sheet").forEach((el) => {
+        const t = topics.find((x) => x.id === el.dataset.id);
+        const steps = [{ ideas: 5, terms: 6 }, { ideas: 5, terms: 4 }, { ideas: 4, terms: 4 }, { ideas: 3, terms: 4 }, { ideas: 3, terms: 2 }];
+        let cur = el;
+        for (const o of steps) {
+          if (t && o !== steps[0]) {
+            const tmp = document.createElement("div");
+            tmp.innerHTML = sheet(t, ORDER.indexOf(t.id) + 1, o);
+            const next = tmp.firstElementChild; cur.replaceWith(next); cur = next;
+          }
+          if (fitOne(cur) || !t) break;
+        }
+      });
+    }
+
+    document.getElementById("bar").innerHTML = `
+      <b>🖨 ${L("Revision sheets", "أوراق المراجعة")}</b>
+      <select id="pick"><option value="all">${L("All six exhibits", "المعارض الستة")}</option>
+        ${topics.map((t) => `<option value="${t.id}">${t.icon} ${esc(AR && ar(t).title ? ar(t).title : t.title)}</option>`).join("")}</select>
+      <label><input type="checkbox" id="withkey" ${withKey ? "checked" : ""}> ${L("Include teacher's answer key", "أضف مفتاح الإجابات")}</label>
+      <button id="lang">🌐 ${AR ? "English" : "العربية"}</button>
+      <button class="primary" id="print">🖨 ${L("Print / save as PDF", "اطبع / احفظ PDF")}</button>
+      <a href="./">← ${L("Back to the museum", "العودة إلى المتحف")}</a>`;
+    const pick = document.getElementById("pick"); pick.value = only;
+    pick.onchange = () => { only = pick.value; render(); };
+    document.getElementById("withkey").onchange = (e) => { withKey = e.target.checked; render(); };
+    document.getElementById("print").onclick = () => window.print();
+    document.getElementById("lang").onclick = () => { params.set("lang", AR ? "en" : "ar"); params.set("topic", only); location.search = params.toString(); };
+    render();
+  })();
+  </script>
+</body>
+</html>

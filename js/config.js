@@ -22,11 +22,15 @@ window.APP_CONFIG = {
   // Currency symbol used in the finance topics (ATM, Waqf, Market).
   currency: "AED ",
 
-  // Default nisab value for the Zakat calculator (value of 85 g of gold).
-  // 85 g × 487.50 AED per gram (24 carat) = 41,437.50 AED.
-  // Gold prices change every day — check today's price and update this,
-  // or type the current value into the calculator during the demo.
-  defaultNisab: 41437.50,
+  // Today's prices (AED per gram) used by the Zakat calculators.
+  // They change every day: update them before the exhibition
+  // (search "UAE gold rate today"). Visitors can also type their own.
+  goldPricePerGram: 496.75,      // 24 carat
+  silverPricePerGram: 7.14,
+
+  // Nisab for the ATM exhibit's quick calculator = 85 g of 24 carat gold.
+  // 85 g × 496.75 AED = 42,223.75 AED
+  defaultNisab: 42223.75,
 
   // OPTIONAL: your own recorded videos (e.g. made in CapCut).
   // Leave a topic out (or empty) and its "Watch video" button plays the

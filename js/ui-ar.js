@@ -185,7 +185,11 @@ window.UI_AR = {
   "Salinity (parts per thousand)": "الملوحة (جزء في الألف)", "Lower the salinity probe": "أنزل مجسّ الملوحة",
   "Drag the depth slider to dive. Click the creatures and zone labels. Switch to 'Two Seas' for the": "اسحب شريط العمق لتغوص. اضغط على الكائنات وأسماء المناطق. انتقل إلى «البحران» لمشهد",
   "barrier": "البرزخ", "scene.": ".", "halocline": "الحد الملحي",
-  "An estuary: lighter fresh river water flows over denser salty sea water. Between them is a sharp boundary called a": "المصبّ: يجري ماء النهر العذب الأخف فوق ماء البحر المالح الأكثف، وبينهما حدّ واضح يسمى"
+  "An estuary: lighter fresh river water flows over denser salty sea water. Between them is a sharp boundary called a": "المصبّ: يجري ماء النهر العذب الأخف فوق ماء البحر المالح الأكثف، وبينهما حدّ واضح يسمى",
+  // toolkit, prayer times, zakat calculator, certificate sharing
+  "Toolkit": "صندوق الأدوات", "Today": "اليوم",
+  "Full family calculator (gold in grams)": "الحاسبة العائلية الكاملة (الذهب بالغرام)",
+  "Share as a picture": "شاركها كصورة",
 };
 
 /* Labels that contain numbers or names. Each: [regex, replacement or function(match, translate)] */

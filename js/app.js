@@ -476,6 +476,8 @@
         </div>`).join("")}
       </div>`;
     $("life-body").querySelectorAll(".life-card").forEach((c) => c.addEventListener("click", () => c.classList.toggle("flipped")));
+    // extra tools for this exhibit (timeline, zakat calculator, prayer times): js/toolkit.js
+    if (window.LIFE_EXTRA) window.LIFE_EXTRA(topic, $("life-body"));
   }
 
   function buildCredits() {

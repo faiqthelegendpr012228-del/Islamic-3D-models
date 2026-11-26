@@ -15,6 +15,14 @@ Six interactive 3D exhibits that connect the Qur'an and Sunnah to science, money
 - 📚 **Glossary:** key terms are underlined; hover or tap for the Arabic word, the meaning and its pronunciation. The 📚 button lists all terms.
 - 🃏 **Myth or Fact:** swipe cards for each exhibit, with the answer and its source.
 - 📱 **View in your room (AR):** five exhibits (ATM, Sky Shield, Waqf, Cosmic Clock, Market) can be placed on a real table through a phone camera. On a computer, scan the QR code.
+- 🧰 **Toolkit** (bottom bar): Glossary, Zakat calculator, Prayer times, Then & now, Revision sheets and Settings in one place.
+- 🧮 **Family Zakat calculator:** money, shares, business stock, gold by carat (in grams) and silver; nisab by gold (85 g) or silver (595 g); 2.5%; print it for your family. Also opens from the ATM's Zakat tab, or with `?zakat` at the end of the link.
+- 🕌 **Prayer times today:** worked out on the page from the Sun's position for any UAE city (or your location), with the next prayer and the Hijri date. In the Cosmic Clock, the **📍 Today** tab turns the 3D Earth to the real time of day.
+- 🕰 **Then & now:** for Sky Shield, Cosmic Clock and Ocean, each verse beside the year science measured the same thing.
+- 🖨 **Revision sheets** (`revision.html`): one A4 page per exhibit (key verses, key ideas, key words, 5 questions) plus a teacher's answer key, in English or Arabic.
+- 👓 **Easy-read settings** (⚙ Settings): bigger text, a dyslexia-friendly font (OpenDyslexic), high contrast, and calm mode (no animations).
+- 📶 **Works with no Wi-Fi:** on the live website the site saves itself on the device and opens without internet; ⚙ Settings → **Save everything** downloads all voices and 3D models (do this on the exhibition laptop). It can also be **installed as an app** on phones and laptops.
+- 📤 **Share your certificate** as a picture (WhatsApp, Instagram) with a QR code to the site.
 - ▶ **Auto tour:** press **K** (or the "▶ Auto tour" button on the homepage) for a self-running tour on the exhibition screen. Any touch hands it to the visitor; after 90 seconds untouched it restarts.
 
 | # | Topic | Category |
@@ -38,7 +46,7 @@ Six interactive 3D exhibits that connect the Qur'an and Sunnah to science, money
 3. Scroll down to a topic, click **Enter exhibit ▶**, then **▶ Start** (or **🎬 Watch the video**).
 
 That's it: no installing and no server.
-⚠️ **You need an internet connection.** The 3D engine (Three.js) loads from the internet the first time the page opens.
+⚠️ **Opened from the folder, you need an internet connection** for the 3D engine (Three.js). The **live website** works offline once it has been opened (see ⚙ Settings → Works with no Wi-Fi).
 
 **Shortcut:** to jump straight to one topic, add its name after a `#`, for example `index.html#ocean`.
 Topic names: `atm`, `sky`, `waqf`, `clock`, `market`, `ocean`.
@@ -64,7 +72,8 @@ Topic names: `atm`, `sky`, `waqf`, `clock`, `market`, `ocean`.
 
 ### 1. Your names and roles → `js/config.js`
 List 1 to 4 people here. With one person, they present every step of Presentation Mode. Names update **everywhere**: start screen, Presentation Mode, credits and the info card.
-You can also change the school name, class, teacher, currency (`AED`) and the default nisab value (now **41,437.50 AED** = 85 g × 487.50 AED per gram of 24-carat gold; update it when the gold price changes).
+You can also change the school name, class, teacher and currency (`AED`).
+**Before the exhibition, update the gold and silver prices** (`goldPricePerGram`, `silverPricePerGram`, `defaultNisab` = 85 × the gold price). Search "UAE gold rate today".
 
 ### 2. Your own videos (optional) → `js/config.js`
 Made a video in CapCut? Add it under `videos`, using a YouTube link or a file in a `videos` folder (under 100 MB):
@@ -116,6 +125,14 @@ arabic: "[PASTE ARABIC TEXT HERE from quran.com/2/275]",
 | `js/myths-data.js` + `js/myths.js` | Myth or Fact cards (please check these like the quiz). |
 | `js/ar.js` + `models/*.glb` + `images/ar-qr-*.png` | AR view: the 3D models and their QR codes. |
 | `js/kiosk.js` | Auto tour (kiosk mode) for the exhibition screen. |
+| `js/toolkit.js` | The 🧰 Toolkit button and the "More for this exhibit" row on the Real Life page. |
+| `js/zakat.js` | Family Zakat calculator. |
+| `js/prayer.js` | Prayer times from the Sun's position (UAE method, 18.2°). |
+| `js/timeline.js` | Then & now timeline (**please ask your teacher to check the wording**). |
+| `revision.html` | Printable revision sheets and answer key. |
+| `js/settings.js` + `css/tools.css` + `fonts/` | ⚙ Settings: easy-read options and offline saving. OpenDyslexic font (SIL Open Font License). |
+| `sw.js` + `manifest.webmanifest` + `images/icon-*.png` | Works with no Wi-Fi + install as an app. |
+| `tools/build_offline.py` | Updates the list of files saved for offline use (see below). |
 | `print/qr-stand-A5.pdf` | Printable QR code sign for the exhibition stand. |
 | `js/scenes/atm.js` | Topic 1: the ATM, Zakat calculator, Riba Check, Sadaqah coins, sorting game. |
 | `js/scenes/sky.js` | Topic 2: Earth, atmosphere layers, meteors, UV rays and ozone. |
@@ -152,6 +169,7 @@ arabic: "[PASTE ARABIC TEXT HERE from quran.com/2/275]",
 ## 🚀 Updating the live website
 After any change, run in the project folder:
 ```
+python tools/build_offline.py
 git add -A
 git commit -m "what you changed"
 git push
